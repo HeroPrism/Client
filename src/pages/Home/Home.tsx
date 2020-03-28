@@ -8,7 +8,7 @@ export const Home: FC = () => {
   return (    
     <Box flex direction="row" className={css.appWrapper}>
         <Box className={css.sidebar} width="large">
-            <TaskList />                
+            <TaskList page={1} />                
         </Box>
         <Box fill background="green">
             <Map />

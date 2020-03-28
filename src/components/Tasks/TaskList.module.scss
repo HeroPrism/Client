@@ -1,0 +1,45 @@
+.pagination {
+    list-style-type: none !important;
+    display: flex;
+    align-items: center;
+    padding-inline-start: 0;
+
+    a {
+        display: inline-block;
+        padding-top: 13px;
+    }
+}
+
+.page, .paginate {
+    cursor: pointer;
+    border: solid 1px #6F94BC;
+    border-radius: 6px;
+    text-align: center;
+    align-content: center;
+    outline: none;
+    height: 50px;
+    width: 50px;
+    margin:4px;
+
+    &:hover, &.active {
+        background-color: #6F94BC;
+        color: white;
+    }
+    .pageButton, .paginateButton {
+        outline: none;
+        height: 43px;
+        width: 50px;
+    }
+}
+
+.paginationDisabled {
+    color: grey;
+    border: solid 1px grey;
+
+    &:hover {
+        cursor: not-allowed;
+        background-color: white;
+        color: grey;
+        border: solid 1px grey;
+    }
+}
