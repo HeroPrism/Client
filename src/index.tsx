@@ -1,12 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { App } from './App';
 import * as serviceWorker from './serviceWorker';
+import { createBrowserHistory } from 'history';
+
+const theme = {
+    global: {
+        colors: {
+            "primary": "#03A5FC",
+            "secondary": "#6F94BC",
+            "tertiary": "#E6F4F1",
+            "neutral": "#F4FAFF",
+            "red": "#FA7651"
+        }
+    }
+}
+
+const history = createBrowserHistory({
+    basename: "/"
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App history={history} />
   </React.StrictMode>,
   document.getElementById('root')
 );

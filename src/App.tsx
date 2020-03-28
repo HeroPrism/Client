@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { createBrowserHistory, History } from "history";
+import { Router, Switch } from "react-router-dom";
+import ReactDOM from "react-dom";
 import css from './App.module.scss';
 import { Grommet, Box } from 'grommet';
 import { Header } from './components/Layout/Header';
 import { Map } from './components/Map/Map';
 import { TaskList } from './components/Tasks/TaskList';
+import { RouteCollection } from './components/Routing/RouteCollection';
+import { routes } from './routing';
 
 const theme = {
     global: {
@@ -17,20 +22,23 @@ const theme = {
     }
 }
 
-function App() {
+const history = createBrowserHistory({
+    basename: "/"
+});
+
+interface AppProps {
+    history: History;
+}
+
+export const App : FC<AppProps> = (props) => {
   return (
     <Grommet theme={theme} className="App" full>
+        <Router history={history}>
+            <Switch>
+                <RouteCollection routes={routes} />
+            </Switch>
+        </Router>
         <Header />
-        <Box flex direction="row" className={css.appWrapper}>
-            <Box className={css.sidebar} width="large">
-                <TaskList />                
-            </Box>
-            <Box fill background="green">
-                <Map />
-            </Box>
-        </Box>
     </Grommet>
   );
 }
-
-export default App;
