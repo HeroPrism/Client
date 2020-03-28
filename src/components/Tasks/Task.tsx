@@ -9,6 +9,7 @@ interface TaskProps {
     pictureUrl?: string;
     title: string;
     userName: string;
+    userScore: number;
     location: string;
 }
 
