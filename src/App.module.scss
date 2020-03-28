@@ -1,0 +1,8 @@
+.appWrapper {
+    margin-top: 75px;
+
+    .sidebar {
+        overflow-y: scroll;
+        max-height: calc(100vh - 75px);
+    }
+}

@@ -8,7 +8,7 @@ export const Header : FC = () => {
         <Box width="100%" style={{ position: "fixed", top: 0, zIndex: 1000 }}>
             <Box
                 gridArea="header"
-                pad="small"
+                pad={{horizontal: "medium"}}
                 height="75px"
                 background="white"
                 direction="row"
@@ -18,8 +18,9 @@ export const Header : FC = () => {
                 <Box>
                     Helper Logo
                 </Box>
-                <Box>
-                    About us
+                <Box direction="row" gap="medium">
+                    <Box>Sign up</Box>
+                    <Box>Log in</Box>
                 </Box>
             </Box>
         </Box>
