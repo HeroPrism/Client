@@ -1,5 +1,5 @@
-import React, { useState, FC, useEffect } from 'react';
-import { Box, Text, Heading } from 'grommet';
+import React, { useState, FC, useEffect, useRef, RefObject } from 'react';
+import { Box } from 'grommet';
 import css from "./TaskList.module.scss";
 import { TaskService } from '../../services/TaskService/TaskService';
 import { TasksRequest } from '../../services/TaskService/models/TasksRequest';
@@ -15,8 +15,9 @@ interface TaskListProps {
 
 export const TaskList: FC<TaskListProps> = (props) => {
     const taskService = new TaskService();
-    const [ tasks, setTasks ] = React.useState<TasksResponse[]>([]);
-    const [ displayedTasks, setDisplayedTasks ] = React.useState<TasksResponse[]>([]);
+    const [ tasks, setTasks ] = useState<TasksResponse[]>([]);
+    const [ displayedTasks, setDisplayedTasks ] = useState<TasksResponse[]>([]);
+    const ref = useRef<HTMLDivElement>(null);
 
     //TODO: Change this to come from bounds of the map.
     const bounds : TasksRequest = {
@@ -41,10 +42,14 @@ export const TaskList: FC<TaskListProps> = (props) => {
 
     const onPageChange = (page: number) => {
         setDisplayedTasks(tasks.slice((page) * TASKS_PER_PAGE, ((page + 1) * TASKS_PER_PAGE)));
+        
+        if (ref.current != null) {
+            ref.current.scrollIntoView();
+        }
     }
 
     return (
-        <Box>
+        <Box ref={ref}>
             {displayedTasks.map(task =>
                 <Task
                     date={task.date}
