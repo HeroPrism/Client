@@ -5,6 +5,18 @@ import { Header } from './components/Layout/Header';
 import { Map } from './components/Map/Map';
 import { Task } from './components/Tasks/Task';
 
+const theme = {
+    global: {
+        colors: {
+            "primary": "#03A5FC",
+            "secondary": "#6F94BC",
+            "tertiary": "#E6F4F1",
+            "neutral": "#F4FAFF",
+            "red": "#FA7651"
+        }
+    }
+}
+
 const tasks = [
     {
         date: Date(),
@@ -100,7 +112,7 @@ const tasks = [
 
 function App() {
   return (
-    <Grommet className="App" full>
+    <Grommet theme={theme} className="App" full>
         <Header />
         <Box flex direction="row" className={css.appWrapper}>
             <Box className={css.sidebar} width="large">
