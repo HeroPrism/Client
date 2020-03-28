@@ -3,11 +3,11 @@ import { ApiClient } from "../ApiClient";
 import { TasksRequest } from "./models/TasksRequest";
 import { TasksResponse } from "./models/TasksResponse";
 
-export class BookingService {
+export class TaskService {
     private api: ApiClient = new JsonClient({ basePath: "/api/tasks" });
 
-    public async getTasks(request: TasksRequest) {
-        //const response = await this.api.post<TasksResponse>("", request);
+    public async getTasks(request: TasksRequest) : Promise<TasksResponse[]> {
+        //const response = await this.api.post<TasksResponse[]>("", request);
 
         return [
             {
@@ -16,7 +16,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Need Dog Treats",
-                userName: "astro1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             },
             {
@@ -25,7 +30,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "TP Please",
-                userName: "plum1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Gilbert, AZ"
             },
             {
@@ -34,7 +44,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Ice Cream",
-                userName: "ice1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Mesa, AZ"
             },
             {
@@ -43,7 +58,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Need Medicine",
-                userName: "doctor1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             },
             {
@@ -52,7 +72,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Flashlight needed",
-                userName: "lamp1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             },
             {
@@ -61,7 +86,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Need Dog Treats",
-                userName: "astro1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             },
             {
@@ -70,7 +100,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "TP Please",
-                userName: "plum1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Gilbert, AZ"
             },
             {
@@ -79,7 +114,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Ice Cream",
-                userName: "ice1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Mesa, AZ"
             },
             {
@@ -88,7 +128,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Need Medicine",
-                userName: "doctor1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             },
             {
@@ -97,7 +142,12 @@ export class BookingService {
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Flashlight needed",
-                userName: "lamp1986",
+                user: {
+                    id: "2343",
+                    name: "Chris",
+                    score: 22,
+                    joinedDate: "3/27/2020"
+                },
                 location: "Tempe, AZ"
             }
         ];
