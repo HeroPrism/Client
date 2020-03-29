@@ -1,6 +1,23 @@
 .taskWrapper {
-    border: solid 1px #F4FAFF;
+    border: solid 1px #E6F4F1;
     margin: .3rem;
     border-radius: 6px;
-    padding: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 75px;
+}
+
+.userScore {
+    background-color: #FA7651;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding-top: 2px;
+    color: white;
+    margin-top: -20px;
 }

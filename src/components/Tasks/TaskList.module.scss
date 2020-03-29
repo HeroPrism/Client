@@ -12,8 +12,8 @@
 
 .page, .paginate {
     cursor: pointer;
-    border: solid 1px #6F94BC;
-    border-radius: 6px;
+    border: solid 1px #E6F4F1;
+    border-radius: 50%;
     text-align: center;
     align-content: center;
     outline: none;
@@ -22,7 +22,7 @@
     margin:4px;
 
     &:hover, &.active {
-        background-color: #6F94BC;
+        background-color: #03A5FC;
         color: white;
     }
     .pageButton, .paginateButton {
@@ -34,12 +34,12 @@
 
 .paginationDisabled {
     color: grey;
-    border: solid 1px grey;
+    border: solid 1px #E6F4F1;
 
     &:hover {
         cursor: not-allowed;
         background-color: white;
-        color: grey;
-        border: solid 1px grey;
+        color: #E6F4F1;
+        border: solid 1px #E6F4F1;
     }
 }

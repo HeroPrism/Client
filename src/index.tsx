@@ -5,20 +5,8 @@ import { App } from './App';
 import * as serviceWorker from './serviceWorker';
 import { createBrowserHistory } from 'history';
 
-const theme = {
-    global: {
-        colors: {
-            "primary": "#03A5FC",
-            "secondary": "#6F94BC",
-            "tertiary": "#E6F4F1",
-            "neutral": "#F4FAFF",
-            "red": "#FA7651"
-        }
-    }
-}
-
 const history = createBrowserHistory({
-    basename: "/"
+    basename: ""
 });
 
 ReactDOM.render(

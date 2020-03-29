@@ -12,7 +12,7 @@ export class TaskService {
         return [
             {
                 date: Date(),
-                description: "I have a dog who eats mad treats yo.",
+                description: "I have a dog who eats mad treats yo. I have a dog who eats mad treats yo. I have a dog who eats mad treats yo. I have a dog who eats mad treats yo. I have a dog who eats mad treats yo.",
                 id: "23542345",
                 pictureUrl: "https://via.placeholder.com/75",
                 title: "Need Dog Treats",
