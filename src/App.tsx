@@ -11,6 +11,7 @@ import { RouteCollection } from './components/Routing/RouteCollection';
 import { routes } from './routing';
 import { TasksResponse } from './services/TaskService/models/TasksResponse';
 import { TaskService } from './services/TaskService/TaskService';
+import { Auth0Provider } from './AuthenticationProvider';
 
 const theme = {
     global: {
@@ -68,19 +69,36 @@ export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState =>
 
 export const AppContext = createContext<IAppContext>({});
 
+const onRedirectCallback = (redirectResult?: RedirectLoginResult) => {
+    const targetUrl = redirectResult
+    && redirectResult.appState
+    && redirectResult.appState.targetUrl
+        ? redirectResult.appState.targetUrl
+        : window.location.pathname
+        
+    history.push(targetUrl)
+};
+
 export const App : FC<AppProps> = (props) => {
     const [ state, dispatch ] = useReducer(TaskReducer, {});
 
     return (
         <Grommet theme={theme} className="App" full>
-            <AppContext.Provider value={{ state, dispatch }}>
-                <Router history={history}>
-                    <Switch>
-                        <RouteCollection routes={routes} />
-                    </Switch>
-                </Router>
-                <Header />
-            </AppContext.Provider>
+            <Auth0Provider
+                domain="dev-v5r9df8o.auth0.com"
+                client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
+                redirect_uri={window.location.origin}
+                onRedirectCallback={onRedirectCallback}
+            >
+                <AppContext.Provider value={{ state, dispatch }}>
+                    <Router history={history}>
+                        <Switch>
+                            <RouteCollection routes={routes} />
+                        </Switch>
+                    </Router>
+                    <Header />
+                </AppContext.Provider>
+            </Auth0Provider>
         </Grommet>
     );
 }

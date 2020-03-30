@@ -8,6 +8,7 @@ import css from "./Login.module.scss";
 
 interface LoginProps {
     isOpen: boolean;
+    signup?: boolean;
     setOpen: (open: boolean) => void;
 }
 
@@ -59,7 +60,7 @@ export const Login: FC<LoginProps> = (props) => {
     const [ lastName, setLastName ] = React.useState("");
     const [phone, setPhone] = React.useState("");
     const [email, setEmail] = React.useState("");
-    const [ createAccount, setCreateAccount ] = React.useState<boolean>(false);
+    const [ createAccount, setCreateAccount ] = React.useState<boolean>(props.signup || false);
     const [password, setPassword] = React.useState("");
     const [loginErrors, setLoginErrors] = React.useState(loginValidator.localize(LOGIN_VALIDATION_MESSAGES));
     const [signupErrors, setSignupErrors] = React.useState(signupValidator.localize(SIGNUP_VALIDATION_MESSAGES));

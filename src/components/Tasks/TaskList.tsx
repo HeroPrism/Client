@@ -49,7 +49,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
     }
 
     return (
-        <Box ref={ref}>
+        <Box ref={ref} animation={["fadeIn", "slideUp"]}>
             {displayedTasks.map(task =>
                 <Task
                     date={task.date}

@@ -2,9 +2,19 @@ import { JsonClient } from "../JsonClient";
 import { ApiClient } from "../ApiClient";
 import { TasksRequest } from "./models/TasksRequest";
 import { TasksResponse } from "./models/TasksResponse";
+import { CreateTaskRequest } from "./models/CreateTaskRequest";
+import { CreateTaskResponse } from "./models/CreateTaskResponse";
 
 export class TaskService {
     private api: ApiClient = new JsonClient({ basePath: "/api" });
+
+    public async createTask(request: CreateTaskRequest) : Promise<CreateTaskResponse> {
+        //await this.api.post<CreateTaskResponse>("tasks", request)
+
+        return {
+            id: "12345"
+        }
+    }
 
     public async getTasks(request: TasksRequest) : Promise<TasksResponse[]> {
         //const response = await this.api.post<TasksResponse[]>("tasks", request);
