@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect, useRef, RefObject } from 'react';
+import React, { useState, FC, useEffect, useRef, RefObject, useContext } from 'react';
 import { Box } from 'grommet';
 import css from "./TaskList.module.scss";
 import { TaskService } from '../../services/TaskService/TaskService';
@@ -6,15 +6,18 @@ import { TasksRequest } from '../../services/TaskService/models/TasksRequest';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { Task } from './Task';
 import ReactPaginate from 'react-paginate';
+import { AppContext } from '../../App';
 
 const TASKS_PER_PAGE = 7;
 
 interface TaskListProps {
     page: number;
+    onSelect: (task: TasksResponse) => void;
 }
 
 export const TaskList: FC<TaskListProps> = (props) => {
     const taskService = new TaskService();
+    const app = useContext(AppContext);
     const [ tasks, setTasks ] = useState<TasksResponse[]>([]);
     const [ displayedTasks, setDisplayedTasks ] = useState<TasksResponse[]>([]);
     const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +38,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
 
     useEffect(() => {
         taskService.getTasks(bounds).then(tasks => { 
+            app.dispatch({ type: "SetTasks", payload: tasks })
             setTasks(tasks);
             setDisplayedTasks(tasks.slice(((props.page || 1) - 1) * TASKS_PER_PAGE, ((props.page || 1) * TASKS_PER_PAGE)));
         });
@@ -51,16 +55,19 @@ export const TaskList: FC<TaskListProps> = (props) => {
     return (
         <Box ref={ref} animation={["fadeIn", "slideUp"]}>
             {displayedTasks.map(task =>
-                <Task
-                    date={task.date}
-                    description={task.description}
-                    id={task.id}
-                    pictureUrl={task.pictureUrl}
-                    title={task.title}
-                    userName={task.user.name}
-                    userScore={task.user.score}
-                    location={task.location}
-                />                
+                <div onClick={() => props.onSelect(task)}>
+                    <Task
+                        key={task.id}
+                        date={task.date}
+                        description={task.description}
+                        id={task.id}
+                        pictureUrl={task.pictureUrl}
+                        title={task.title}
+                        userName={task.user.name}
+                        userScore={task.user.score}
+                        location={task.location}
+                    />       
+                </div>       
             )}
             <Box margin="auto">
                 <ReactPaginate

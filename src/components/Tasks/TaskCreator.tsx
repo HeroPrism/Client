@@ -3,10 +3,13 @@ import { Box, TextInput, Button, Text, TextArea } from 'grommet';
 import styles from '../../styles.module.scss';
 import { Validator, FailureReason } from '../../lib/validation';
 import { field, required } from '../../lib/validation/rules';
-
-
+import { TaskService } from '../../services/TaskService/TaskService';
+import { useAuth0 } from '../../AuthenticationProvider';
+import { useHistory } from 'react-router-dom';
+import { RouteName, path } from '../../routing';
 
 export const TaskCreator: FC = (props) => {
+    const history = useHistory();
     const validator = new Validator({
         title: field(required()),
         description: field(required()),
@@ -25,6 +28,12 @@ export const TaskCreator: FC = (props) => {
         }
     };
 
+    
+
+    const taskService = new TaskService();
+    const { getTokenSilently } = useAuth0();
+    const [ taskCreated, setTaskCreated ] = useState<boolean>(false);
+    const [ taskId, setTaskId ] = useState("");
     const [ title, setTitle ] = React.useState("");
     const [ description, setDescription ] = React.useState("");
     const [ zipCode, setZipCode ] = React.useState("");
@@ -33,16 +42,27 @@ export const TaskCreator: FC = (props) => {
     const onTitleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
     const onDescriptionChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value), []);
     const onZipCodeChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setZipCode(e.target.value), []);
+
+    const navigateToTask = useCallback(() => {
+        history.push(path(RouteName.TaskDetails, { id: taskId }))
+    }, [taskId])
     
     const onCreateTask = useCallback(
-        (e: FormEvent) => {
+        async (e: FormEvent) => {
             e.preventDefault();
 
             const result = validator.validate({ title, description, zipCode });
             const errors = validator.localize(VALIDATION_MESSAGES, result);
 
             if (result.valid) {
-                
+                taskService.createTask({
+                    title: title,
+                    description: description,
+                    zipcode: zipCode
+                }, await getTokenSilently()).then(result => {
+                    setTaskId(result.id);
+                    setTaskCreated(true);
+                });
             }
 
             setErrors(errors);
@@ -52,46 +72,54 @@ export const TaskCreator: FC = (props) => {
 
     return (
         <Box pad="medium" animation={["fadeIn", "slideUp"]}>
-             <Box
-                as="form"
-                fill="vertical"
-                overflow="auto"
-                margin={{ top: "medium" }}
-                onSubmit={onCreateTask}
-            >
-                <Box margin={{ bottom: "small" }}>
-                    <Text>Zipcode</Text>
-                    <TextInput
-                        onChange={onZipCodeChange}
-                    ></TextInput>
-                    {errors.zipCode && <Text color="red">{errors.zipCode}</Text>}
+            {!taskCreated &&
+                <Box
+                    as="form"
+                    fill="vertical"
+                    overflow="auto"
+                    margin={{ top: "medium" }}
+                    onSubmit={onCreateTask}
+                >
+                    <Box margin={{ bottom: "small" }}>
+                        <Text>Zipcode</Text>
+                        <TextInput
+                            onChange={onZipCodeChange}
+                        ></TextInput>
+                        {errors.zipCode && <Text color="red">{errors.zipCode}</Text>}
+                    </Box>
+                    <Box margin={{ bottom: "small" }}>
+                        <Text>Title</Text>
+                        <TextInput
+                            onChange={onTitleChange}
+                        ></TextInput>
+                        {errors.title && <Text color="red">{errors.title}</Text>}
+                    </Box>
+                    <Box margin={{ bottom: "small" }}>
+                        <Text>Description</Text>
+                        <TextArea
+                            onChange={onDescriptionChange}
+                            style={{ minHeight: "300px" }}
+                            resize={false}
+                        />
+                        {errors.description && <Text color="red">{errors.description}</Text>}
+                    </Box>
+                    <Box flex={false} as="footer" align="center" margin={{ vertical: "medium" }}>
+                        <Button primary
+                            color="primary"
+                            type="submit"
+                            className={styles.btn}
+                        >
+                            Create
+                        </Button>
+                    </Box>
                 </Box>
-                <Box margin={{ bottom: "small" }}>
-                    <Text>Title</Text>
-                    <TextInput
-                        onChange={onTitleChange}
-                    ></TextInput>
-                    {errors.title && <Text color="red">{errors.title}</Text>}
+            }
+            {taskCreated &&
+                <Box>
+                    Task Created!
+                    <Text color="primary" className={styles.cursor} onClick={navigateToTask}>{`http://localhost:3000/help/${taskId}`}</Text>
                 </Box>
-                <Box margin={{ bottom: "small" }}>
-                    <Text>Description</Text>
-                    <TextArea
-                        onChange={onDescriptionChange}
-                        style={{ minHeight: "300px" }}
-                        resize={false}
-                    />
-                    {errors.description && <Text color="red">{errors.description}</Text>}
-                </Box>
-                <Box flex={false} as="footer" align="center" margin={{ vertical: "medium" }}>
-                    <Button primary
-                        color="red"
-                        type="submit"
-                        className={styles.btn}
-                    >
-                        Create
-                    </Button>
-                </Box>
-            </Box>
+            }
         </Box>
     );
 }

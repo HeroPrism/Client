@@ -6,13 +6,18 @@ import { CreateTaskRequest } from "./models/CreateTaskRequest";
 import { CreateTaskResponse } from "./models/CreateTaskResponse";
 
 export class TaskService {
-    private api: ApiClient = new JsonClient({ basePath: "/api" });
+    
 
-    public async createTask(request: CreateTaskRequest) : Promise<CreateTaskResponse> {
-        //await this.api.post<CreateTaskResponse>("tasks", request)
+    private api: ApiClient = new JsonClient();
 
+    public async createTask(request: CreateTaskRequest, token?: string) : Promise<CreateTaskResponse> {
+        const headers = {
+            Authorization: `Bearer ${token}`
+        }
+
+        //return await this.api.postWithAuth<CreateTaskResponse>("hops", request, headers);
         return {
-            id: "12345"
+            id: "23423423"
         }
     }
 
@@ -32,7 +37,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Tempe, AZ"
+                location: "Tempe, AZ",
+                coordinates: {
+                    lat: 33.425522,
+                    lng: -111.941254
+                }
             },
             {
                 date: Date(),
@@ -46,7 +55,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Gilbert, AZ"
+                location: "Gilbert, AZ",
+                coordinates: {
+                    lat: 33.5255,
+                    lng: -111.9200
+                }
             },
             {
                 date: Date(),
@@ -60,7 +73,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Mesa, AZ"
+                location: "Mesa, AZ",
+                coordinates: {
+                    lat: 33.4455,
+                    lng: -111.8920
+                }
             },
             {
                 date: Date(),
@@ -74,7 +91,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Tempe, AZ"
+                location: "Tempe, AZ",
+                coordinates: {
+                    lat: 33.1255,
+                    lng: -111.7400
+                }
             },
             {
                 date: Date(),
@@ -88,7 +109,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Tempe, AZ"
+                location: "Tempe, AZ",
+                coordinates: {
+                    lat: 33.4225,
+                    lng: -111.9100
+                }
             },
             {
                 date: Date(),
@@ -102,7 +127,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Tempe, AZ"
+                location: "Tempe, AZ",
+                coordinates: {
+                    lat: 33.3995,
+                    lng: -111.9510
+                }
             },
             {
                 date: Date(),
@@ -116,7 +145,11 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Gilbert, AZ"
+                location: "Gilbert, AZ",
+                coordinates: {
+                    lat: 33.4145,
+                    lng: -111.9377
+                }
             },
             {
                 date: Date(),
@@ -130,176 +163,12 @@ export class TaskService {
                     score: 22,
                     joinedDate: "3/27/2020"
                 },
-                location: "Mesa, AZ"
-            },
-            {
-                date: Date(),
-                description: "I need my meds picked up",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Need Medicine",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "My power is out and i need a flash light",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Flashlight needed",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "I have a dog who eats mad treats yo.",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Need Dog Treats",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "I poop alot",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "TP Please",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Gilbert, AZ"
-            },
-            {
-                date: Date(),
-                description: "I love ice cream.",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Ice Cream",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Mesa, AZ"
-            },
-            {
-                date: Date(),
-                description: "I need my meds picked up",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Need Medicine",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "My power is out and i need a flash light",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Flashlight needed",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "I have a dog who eats mad treats yo.",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Need Dog Treats",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "I poop alot",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "TP Please",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Gilbert, AZ"
-            },
-            {
-                date: Date(),
-                description: "I love ice cream.",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Ice Cream",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Mesa, AZ"
-            },
-            {
-                date: Date(),
-                description: "I need my meds picked up",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Need Medicine",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
-            },
-            {
-                date: Date(),
-                description: "My power is out and i need a flash light",
-                id: "23542345",
-                pictureUrl: "https://via.placeholder.com/75",
-                title: "Flashlight needed",
-                user: {
-                    id: "2343",
-                    name: "Chris",
-                    score: 22,
-                    joinedDate: "3/27/2020"
-                },
-                location: "Tempe, AZ"
+                location: "Mesa, AZ",
+                coordinates: {
+                    lat: 33.3915,
+                    lng: -111.9480
+                }
             }
-        ];
+        ]
     }
 }

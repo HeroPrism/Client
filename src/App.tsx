@@ -48,8 +48,8 @@ export interface IAppContext {
 }
 
 interface TaskState {
-    tasks?: TasksResponse | [];
-    bounds?: TaskService | null;
+    tasks?: any | [];
+    bounds?: any;
 }
 
 interface TaskAction {
@@ -59,8 +59,15 @@ interface TaskAction {
 
 export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState => {
     switch (action.type) {
-        case 'BoundsChanged':
+        case 'SetTasks':
+            return {
+                tasks: action.payload
+            }
+        case 'SetBounds':
         default:
+            if (action.payload == state.bounds) {
+                return { };
+            }
             return {
                 bounds: action.payload
             };
@@ -87,9 +94,11 @@ export const App : FC<AppProps> = (props) => {
             <Auth0Provider
                 domain="dev-v5r9df8o.auth0.com"
                 client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
+                // audience={"https://50992717.ngrok.io/"}
                 redirect_uri={window.location.origin}
-                onRedirectCallback={onRedirectCallback}
+                onRedirectCallback={onRedirectCallback} 
             >
+                
                 <AppContext.Provider value={{ state, dispatch }}>
                     <Router history={history}>
                         <Switch>

@@ -8,4 +8,10 @@ export interface TasksResponse {
     title: string;
     user: User;
     location: string;
+    coordinates: Coordinate;
+}
+
+export interface Coordinate {
+    lat: number;
+    lng: number;
 }

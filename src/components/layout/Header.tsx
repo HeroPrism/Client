@@ -1,12 +1,10 @@
-import React, { FC, useState } from "react";
-import { Box, ResponsiveContext, Layer, Heading, Text } from "grommet";
-import * as assets from "../../assets";
-import { Login } from "../Login/Login";
+import React, { FC } from "react";
+import { Box, ResponsiveContext } from "grommet";
 import { useAuth0 } from "../../AuthenticationProvider";
 
 export const Header : FC = () => {
     const size = React.useContext(ResponsiveContext);
-    const [ loginOpen, setLoginOpen ] = useState<boolean>(false);
+    
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
     return (
@@ -25,17 +23,14 @@ export const Header : FC = () => {
                 </Box>
                 <Box direction="row" gap="medium">
                     {!isAuthenticated &&
-                        <>
-                            <Box onClick={() => setLoginOpen(true)}>Sign up</Box>
-                            <Box onClick={() => loginWithRedirect({})}>Log in</Box>
-                        </>
+                        <Box onClick={() => loginWithRedirect({})}>Log in</Box>
                     }
                     {isAuthenticated &&
                         <Box onClick={() => logout()}>Logout</Box>
                     }
                 </Box>
             </Box>
-            <Login isOpen={loginOpen} setOpen={setLoginOpen} />
+            
         </Box>
     );
 }
