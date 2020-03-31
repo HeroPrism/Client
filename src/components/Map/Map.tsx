@@ -3,8 +3,72 @@ import { GoogleMap, Marker, withGoogleMap } from "react-google-maps"
 import  debounce from 'lodash.debounce';
 import { AppContext } from '../../App';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
+import { ResponsiveContext } from 'grommet';
 
-
+const mapStyles: any = [
+    {
+      "featureType": "landscape.man_made",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#f8f8f8"
+        }
+      ]
+    },
+    {
+      "featureType": "landscape.natural.terrain",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#e6f4f1"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#fffefd"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry.stroke",
+      "stylers": [
+        {
+          "color": "#fda68c"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#d9f3fc"
+        }
+      ]
+    }
+  ];
 
 const MyMapComponent = withGoogleMap((props : any) =>
     <GoogleMap
@@ -13,6 +77,7 @@ const MyMapComponent = withGoogleMap((props : any) =>
         defaultCenter={props.center}
         onDragEnd={props.onDragEnd}
         onBoundsChanged={props.onBoundsChanged}
+        defaultOptions={{ styles: mapStyles }}
     >
         <>
             {
@@ -24,6 +89,7 @@ const MyMapComponent = withGoogleMap((props : any) =>
 );
 
 export const Map: FC = () => {
+    const size = useContext(ResponsiveContext);
     const app = useContext(AppContext);
     const { tasks } = app.state;
     const [ center, setCenter ] = useState({
@@ -37,7 +103,7 @@ export const Map: FC = () => {
     }, 250);
 
     return (
-        <div style={{ height: "calc(100vh - 75px)", width: "100%" }}>
+        <div style={{ height: size == "small" ? "calc(100vh - 143px)" : "calc(100vh - 75px)", width: "100%" }}>
             <MyMapComponent
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}

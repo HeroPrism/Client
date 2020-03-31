@@ -1,6 +1,6 @@
-import React, { FC, useReducer, useState, useEffect } from 'react';
-import { Box, Layer, Heading, Text, Button } from 'grommet';
-import { Close, FormPreviousLink } from 'grommet-icons';
+import React, { FC, useReducer, useState, useEffect, useContext } from 'react';
+import { Box, Layer, Heading, Text, Button, ResponsiveContext } from 'grommet';
+import { Close, FormPreviousLink, MapLocation } from 'grommet-icons';
 import { TaskList } from '../../components/Tasks/TaskList';
 import { Map } from '../../components/Map/Map';
 import css from './Home.module.scss';
@@ -20,9 +20,9 @@ export enum TaskView {
 }
 
 export const Home: FC = () => {
-    const history = useHistory();
+    const size = useContext(ResponsiveContext);
     const location = useLocation();
-    const { id } = useParams();
+    const [ toggleMap, setToggleMap ] = useState<boolean>(false);
     const [ selectedTask, setSelectedTask ] = useState<TasksResponse>();
     const [ signupOpen, setSignupOpen ] = useState<boolean>(false);
     const { isAuthenticated } = useAuth0();
@@ -71,15 +71,24 @@ export const Home: FC = () => {
         return (
             <Box direction="row" justify="between">
                 <Box></Box>
-                <Box>
-                    <Button primary
-                        color="primary"
-                        type="submit"
-                        onClick={onAskForHelp}
-                        className={styles.btn}
-                    >
-                        Ask for help
-                    </Button>
+                <Box direction="row">
+                    {size == "small" &&
+                        <Box direction="row" className={styles.btnOutline} onClick={() => setToggleMap(!toggleMap)}>
+                            <Box>
+                                <MapLocation />
+                            </Box>
+                        </Box>
+                    }
+                    <Box>
+                        <Button primary
+                            color="primary"
+                            type="submit"
+                            onClick={onAskForHelp}
+                            className={styles.btn}
+                        >
+                            Ask for help
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         );
@@ -124,38 +133,48 @@ export const Home: FC = () => {
                         </Box>
                     </Box>
                 </Box>
-                <Box>
-                </Box>
+                <Box></Box>
             </Box>
         );
     }
 
     return (    
         <Box flex direction="row" className={css.appWrapper}>
-            <Box width="large">
-                <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
-                    {renderNav()}
-                    <Signup isOpen={signupOpen} setOpen={setSignupOpen} />
+            {(size != "small" || !toggleMap || taskView != TaskView.List) &&
+                <Box width="large">
+                    <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
+                        {renderNav()}
+                        <Signup isOpen={signupOpen} setOpen={setSignupOpen} />
+                    </Box>
+                    <Box pad={{ top: "small" }} className={css.sidebar}>
+                        {showTaskDetails &&
+                            <TaskDetails task={selectedTask} />
+                        }
+                        {!showTaskDetails &&
+                            <>
+                                {showAskForHelp &&
+                                    <TaskCreator />
+                                }
+                                {!showAskForHelp &&
+                                    <TaskList onSelect={onOpenTaskDetails} page={1} />
+                                }
+                            </>
+                        }
+                    </Box>     
                 </Box>
-                <Box pad={{ top: "small" }} className={css.sidebar}>
-                    {showTaskDetails &&
-                        <TaskDetails task={selectedTask} />
+            }
+            
+            {(size != "small" || toggleMap) && taskView == TaskView.List &&
+                <Box fill>
+                    {(size == "small" && toggleMap) &&
+                        <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
+                            {renderNav()}
+                            <Signup isOpen={signupOpen} setOpen={setSignupOpen} />
+                        </Box>
                     }
-                    {!showTaskDetails &&
-                        <>
-                            {showAskForHelp &&
-                                <TaskCreator />
-                            }
-                            {!showAskForHelp &&
-                                <TaskList onSelect={onOpenTaskDetails} page={1} />
-                            }
-                        </>
-                    }
-                </Box>     
-            </Box>
-            <Box fill>
-                <Map />
-            </Box>
+                    <Map />
+                </Box>
+            }
         </Box>
     );
 }
