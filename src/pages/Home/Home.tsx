@@ -164,7 +164,7 @@ export const Home: FC = () => {
                 </Box>
             }
             
-            {(size != "small" || toggleMap) && taskView == TaskView.List &&
+            {(size != "small" || toggleMap) && (taskView == TaskView.List || size != "small") &&
                 <Box fill>
                     {(size == "small" && toggleMap) &&
                         <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
@@ -172,7 +172,7 @@ export const Home: FC = () => {
                             <Signup isOpen={signupOpen} setOpen={setSignupOpen} />
                         </Box>
                     }
-                    <Map />
+                    <Map onSelect={onOpenTaskDetails} />
                 </Box>
             }
         </Box>

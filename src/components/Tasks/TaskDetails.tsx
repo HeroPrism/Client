@@ -4,6 +4,7 @@ import * as assets from "../../assets";
 import css from "./Task.module.scss";
 import src from '*.bmp';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
+import { Chatter } from '../Chat/Chatter';
 
 interface TaskDetailsProps {
     task?: TasksResponse;

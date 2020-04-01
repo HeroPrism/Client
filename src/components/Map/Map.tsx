@@ -1,9 +1,10 @@
-import React, { useState, FC, useContext, createRef, useEffect } from 'react';
+import React, { useState, FC, useContext, createRef, useEffect, ComponentClass, Children } from 'react';
 import { GoogleMap, Marker, withGoogleMap } from "react-google-maps"
 import  debounce from 'lodash.debounce';
 import { AppContext } from '../../App';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
-import { ResponsiveContext } from 'grommet';
+import { ResponsiveContext, Box } from 'grommet';
+import { MapMarker } from './MapMarker';
 
 const mapStyles: any = [
     {
@@ -68,7 +69,7 @@ const mapStyles: any = [
         }
       ]
     }
-  ];
+];
 
 const MyMapComponent = withGoogleMap((props : any) =>
     <GoogleMap
@@ -79,19 +80,23 @@ const MyMapComponent = withGoogleMap((props : any) =>
         onBoundsChanged={props.onBoundsChanged}
         defaultOptions={{ styles: mapStyles }}
     >
-        <>
-            {
-                props.tasks && props.tasks.map((task: TasksResponse) => <Marker position={{ lat: task.coordinates.lat, lng: task.coordinates.lng }} />)
-            }
-        </>
-        
+        {props.tasks?.map((task: TasksResponse) => (
+            <Marker
+                onClick={(e) => console.log('test')}
+                key={task.id}
+                position={{ lat: task.coordinates.lat, lng: task.coordinates.lng }}
+            />
+        ))}
     </GoogleMap>
-);
+);  
 
-export const Map: FC = () => {
+interface MapProps {
+    onSelect: (task: TasksResponse) => void;
+}
+
+export const Map: FC<MapProps> = (props) => {
     const size = useContext(ResponsiveContext);
     const app = useContext(AppContext);
-    const { tasks } = app.state;
     const [ center, setCenter ] = useState({
         lat: 33.425522,
         lng: -111.941254
@@ -110,6 +115,7 @@ export const Map: FC = () => {
                 center={center}
                 tasks={app.state.tasks}
                 mapRef={mapRef}
+                onSelect={props.onSelect}
                 onBoundsChanged={onBoundsChanged}
             />
         </div>
