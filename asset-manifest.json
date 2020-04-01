@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/client/static/css/main.7d51eeda.chunk.css",
+    "main.js": "/client/static/js/main.629c490f.chunk.js",
+    "main.js.map": "/client/static/js/main.629c490f.chunk.js.map",
+    "runtime-main.js": "/client/static/js/runtime-main.2e2c2fb4.js",
+    "runtime-main.js.map": "/client/static/js/runtime-main.2e2c2fb4.js.map",
+    "static/js/2.dcea9a8f.chunk.js": "/client/static/js/2.dcea9a8f.chunk.js",
+    "static/js/2.dcea9a8f.chunk.js.map": "/client/static/js/2.dcea9a8f.chunk.js.map",
+    "index.html": "/client/index.html",
+    "precache-manifest.c45707d336e6a1974687370594e21f25.js": "/client/precache-manifest.c45707d336e6a1974687370594e21f25.js",
+    "service-worker.js": "/client/service-worker.js",
+    "static/css/main.7d51eeda.chunk.css.map": "/client/static/css/main.7d51eeda.chunk.css.map",
+    "static/js/2.dcea9a8f.chunk.js.LICENSE.txt": "/client/static/js/2.dcea9a8f.chunk.js.LICENSE.txt",
+    "static/media/LoginHero.png": "/client/static/media/LoginHero.e4f26ce8.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2e2c2fb4.js",
+    "static/js/2.dcea9a8f.chunk.js",
+    "static/css/main.7d51eeda.chunk.css",
+    "static/js/main.629c490f.chunk.js"
+  ]
+}
