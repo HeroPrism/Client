@@ -23,11 +23,14 @@ export const TaskList: FC<TaskListProps> = (props) => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        taskService.getTasks(app.state.bounds).then(tasks => { 
-            app.dispatch({ type: "SetTasks", payload: tasks })
-            setTasks(tasks);
-            setDisplayedTasks(tasks.slice(((props.page || 1) - 1) * TASKS_PER_PAGE, ((props.page || 1) * TASKS_PER_PAGE)));
-        });
+        if (app.state.bounds != undefined) {
+            taskService.getTasks({ bounds: app.state.bounds }).then(tasks => { 
+                app.dispatch({ type: "SetTasks", payload: tasks })
+                setTasks(tasks);
+                setDisplayedTasks(tasks.slice(((props.page || 1) - 1) * TASKS_PER_PAGE, ((props.page || 1) * TASKS_PER_PAGE)));
+            });
+        }
+        
     }, [app.state.bounds]);
 
     const onPageChange = (page: number) => {
@@ -48,8 +51,6 @@ export const TaskList: FC<TaskListProps> = (props) => {
                         description={task.description}
                         id={task.id}
                         title={task.title}
-                        userName={task.user.name}
-                        userScore={task.user.score}
                         location={task.zipCode}
                     />       
                 </div>       

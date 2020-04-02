@@ -10,8 +10,6 @@ interface TaskProps {
     id: string;
     pictureUrl?: string;
     title: string;
-    userName: string;
-    userScore: number;
     location: string;
 }
 
@@ -35,10 +33,10 @@ export const Task: FC<TaskProps> = (props) => {
                 <Box align="center" width="20%" pad={{ vertical: "medium"} }>
                     <img className={css.avatar} src={assets.Avatar1}></img>
                     <Box className={css.userScore}>
-                        {props.userScore}
+                        22
                     </Box>
                     <Box margin={{ top: "xsmall" }}>
-                        <Text color="primary" size="large">{props.userName}</Text>
+                        <Text color="primary" size="large">Chris</Text>
                     </Box>
                 </Box>
             </Box>

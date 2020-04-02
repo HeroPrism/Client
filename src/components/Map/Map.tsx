@@ -111,18 +111,26 @@ export const Map: FC<MapProps> = (props) => {
         const northEast = bounds?.getNorthEast();
         const southWest = bounds?.getSouthWest();
 
-        app.dispatch({ type: 'SetBounds', payload: {
-            ne: northEast,
-            sw: southWest,
-            nw: {
-                latitude: northEast?.lat(),
-                longitude: southWest?.lng()
-            },
-            se: {
-                latitude: southWest?.lat(),
-                longitude: northEast?.lng()
-            }
-        }})
+        if (northEast) {
+            app.dispatch({ type: 'SetBounds', payload: {
+                ne: {
+                    latitude: northEast?.lat(),
+                    longitude: northEast?.lng()
+                },
+                sw: {
+                    latitude: southWest?.lat(),
+                    longitude: southWest?.lng()
+                },
+                nw: {
+                    latitude: northEast?.lat(),
+                    longitude: southWest?.lng()
+                },
+                se: {
+                    latitude: southWest?.lat(),
+                    longitude: northEast?.lng()
+                }
+            }})
+        }
     }, 250);
 
     return (
