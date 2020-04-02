@@ -12,6 +12,7 @@ import { RouteName, path } from '../../routing';
 import { TaskDetails } from '../../components/Tasks/TaskDetails';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { Signup } from '../../components/Signup/Signup';
+import { AppContext } from '../../App';
 
 export enum TaskView {
     Create,
@@ -22,6 +23,7 @@ export enum TaskView {
 export const Home: FC = () => {
     const size = useContext(ResponsiveContext);
     const location = useLocation();
+    const app = useContext(AppContext);
     const [ toggleMap, setToggleMap ] = useState<boolean>(false);
     const [ selectedTask, setSelectedTask ] = useState<TasksResponse>();
     const [ signupOpen, setSignupOpen ] = useState<boolean>(false);
@@ -156,7 +158,7 @@ export const Home: FC = () => {
                                     <TaskCreator />
                                 }
                                 {!showAskForHelp &&
-                                    <TaskList onSelect={onOpenTaskDetails} page={1} />
+                                    <TaskList onSelect={onOpenTaskDetails} page={app.state.page} tasks={app.state.tasks} />
                                 }
                             </>
                         }

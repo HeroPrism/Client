@@ -50,6 +50,7 @@ export interface IAppContext {
 
 interface TaskState {
     tasks?: any | [];
+    page?: number
     bounds?: Bounds;
 }
 
@@ -59,18 +60,33 @@ interface TaskAction {
 }
 
 export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState => {
+    console.log(action.type);
     switch (action.type) {
         case 'SetTasks':
             return {
-                tasks: action.payload
+                tasks: action.payload,
+                bounds: state.bounds,
+                page: state.page
+            }
+        case 'SetPage':
+            return {
+                page: action.payload,
+                tasks: state.tasks,
+                bounds: state.bounds
             }
         case 'SetBounds':
         default:
             if (action.payload == state.bounds) {
-                return { };
+                return { 
+                    tasks: state.tasks,
+                    bounds: state.bounds,
+                    page: state.page
+                };
             }
             return {
-                bounds: action.payload
+                bounds: action.payload,
+                tasks: state.tasks,
+                page: state.page
             };
     }
 }
@@ -88,14 +104,14 @@ const onRedirectCallback = (redirectResult?: RedirectLoginResult) => {
 };
 
 export const App : FC<AppProps> = (props) => {
-    const [ state, dispatch ] = useReducer(TaskReducer, {});
+    const [ state, dispatch ] = useReducer(TaskReducer, { page: 0 });
 
     return (
         <Grommet theme={theme} className="App" full>
             <Auth0Provider
                 domain="dev-v5r9df8o.auth0.com"
                 client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
-                // audience={"https://50992717.ngrok.io/"}
+                audience={"https://heroprism.azurewebsites.net/"}
                 redirect_uri={window.location.origin}
                 onRedirectCallback={onRedirectCallback} 
             >

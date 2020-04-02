@@ -8,33 +8,36 @@ import { Task } from './Task';
 import ReactPaginate from 'react-paginate';
 import { AppContext } from '../../App';
 
-const TASKS_PER_PAGE = 7;
+const TASKS_PER_PAGE = 2;
 
 interface TaskListProps {
     page: number;
+    tasks: TasksResponse[];
     onSelect: (task: TasksResponse) => void;
 }
 
 export const TaskList: FC<TaskListProps> = (props) => {
     const taskService = new TaskService();
     const app = useContext(AppContext);
-    const [ tasks, setTasks ] = useState<TasksResponse[]>([]);
+    const [ tasks, setTasks ] = useState<TasksResponse[]>(props.tasks);
     const [ displayedTasks, setDisplayedTasks ] = useState<TasksResponse[]>([]);
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (app.state.bounds != undefined) {
             taskService.getTasks({ bounds: app.state.bounds }).then(tasks => { 
-                app.dispatch({ type: "SetTasks", payload: tasks })
+                app.dispatch({ type: "SetTasks", payload: tasks });
                 setTasks(tasks);
-                setDisplayedTasks(tasks.slice(((props.page || 1) - 1) * TASKS_PER_PAGE, ((props.page || 1) * TASKS_PER_PAGE)));
+                setDisplayedTasks(tasks.slice(props.page * TASKS_PER_PAGE, ((props.page + 1) * TASKS_PER_PAGE)));
+                app.dispatch({ type: "SetPage", payload: props.page });
             });
         }
         
     }, [app.state.bounds]);
 
     const onPageChange = (page: number) => {
-        setDisplayedTasks(tasks.slice((page) * TASKS_PER_PAGE, ((page + 1) * TASKS_PER_PAGE)));
+        app.dispatch({ type: "SetPage", payload: page })
+        setDisplayedTasks(tasks?.slice((page) * TASKS_PER_PAGE, ((page + 1) * TASKS_PER_PAGE)));
         
         if (ref.current != null) {
             ref.current.scrollIntoView();
@@ -43,7 +46,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
 
     return (
         <Box ref={ref} animation={["fadeIn", "slideUp"]}>
-            {displayedTasks.map(task =>
+            {displayedTasks?.map(task =>
                 <div onClick={() => props.onSelect(task)}>
                     <Task
                         key={task.id}
@@ -60,6 +63,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
                         previousLabel={'<'}
                         nextLabel={'>'}
                         breakLabel={'...'}
+                        initialPage={props.page || 0}
                         breakClassName={'break-me'}
                         pageCount={tasks && (tasks.length / TASKS_PER_PAGE)}
                         marginPagesDisplayed={2}
