@@ -8,7 +8,7 @@ import { Task } from './Task';
 import ReactPaginate from 'react-paginate';
 import { AppContext } from '../../App';
 
-const TASKS_PER_PAGE = 2;
+const TASKS_PER_PAGE = 16;
 
 interface TaskListProps {
     page: number;
@@ -45,42 +45,49 @@ export const TaskList: FC<TaskListProps> = (props) => {
     }
 
     return (
-        <Box ref={ref} animation={["fadeIn", "slideUp"]}>
-            {displayedTasks?.map(task =>
-                <div onClick={() => props.onSelect(task)}>
-                    <Task
-                        key={task.id}
-                        date={task.createdDateTime}
-                        description={task.description}
-                        id={task.id}
-                        title={task.title}
-                        location={task.zipCode}
-                    />       
-                </div>       
-            )}
-            <Box margin="auto">
-                <ReactPaginate
-                        previousLabel={'<'}
-                        nextLabel={'>'}
-                        breakLabel={'...'}
-                        initialPage={props.page || 0}
-                        breakClassName={'break-me'}
-                        pageCount={tasks && (tasks.length / TASKS_PER_PAGE)}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        forcePage={props.page}
-                        onPageChange={(data) => onPageChange(data.selected)}
-                        containerClassName={css.pagination}
-                        pageClassName={css.page}
-                        activeClassName={css.active}
-                        pageLinkClassName={css.pageButton}
-                        nextClassName={css.paginate}
-                        nextLinkClassName={css.paginateButton}
-                        previousClassName={css.paginate}
-                        previousLinkClassName={css.paginateButton}
-                        disabledClassName={css.paginationDisabled}
-                    />
-            </Box>
-        </Box>
+        <>
+            {!displayedTasks &&
+                <Box fill style={{ height: "100%" }} background="green"></Box>
+            }
+            {displayedTasks &&
+                <Box ref={ref} animation={["fadeIn", "slideUp"]}>
+                    {displayedTasks?.map(task =>
+                        <div onClick={() => props.onSelect(task)}>
+                            <Task
+                                key={task.id}
+                                date={task.createdDateTime}
+                                description={task.description}
+                                id={task.id}
+                                title={task.title}
+                                location={task.zipCode}
+                            />       
+                        </div>       
+                    )}
+                    <Box margin="auto">
+                        <ReactPaginate
+                                previousLabel={'<'}
+                                nextLabel={'>'}
+                                breakLabel={'...'}
+                                initialPage={props.page || 0}
+                                breakClassName={'break-me'}
+                                pageCount={tasks && (tasks.length / TASKS_PER_PAGE)}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                forcePage={props.page}
+                                onPageChange={(data) => onPageChange(data.selected)}
+                                containerClassName={css.pagination}
+                                pageClassName={css.page}
+                                activeClassName={css.active}
+                                pageLinkClassName={css.pageButton}
+                                nextClassName={css.paginate}
+                                nextLinkClassName={css.paginateButton}
+                                previousClassName={css.paginate}
+                                previousLinkClassName={css.paginateButton}
+                                disabledClassName={css.paginationDisabled}
+                            />
+                    </Box>
+                </Box>
+            }
+        </>
     );
 }

@@ -7,3 +7,5 @@ export { default as Avatar6 } from "./Avatar6.png";
 export { default as Avatar7 } from "./Avatar7.png";
 export { default as Avatar8 } from "./Avatar8.png";
 export { default as LoginHero } from "./LoginHero.png";
+export { default as MarkerMale } from "./MarkerMale.png";
+export { default as MarkerFemale } from "./MarkerFemale.png";

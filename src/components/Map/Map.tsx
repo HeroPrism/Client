@@ -5,6 +5,7 @@ import { AppContext } from '../../App';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { ResponsiveContext, Box } from 'grommet';
 import { MapMarker } from './MapMarker';
+import * as assets from "../../assets";
 
 const mapStyles: any = [
     {
@@ -83,9 +84,10 @@ const MyMapComponent = withGoogleMap((props : any) =>
             zoomControl: true
         }}
     >
-        {props.tasks?.map((task: TasksResponse) => (
+        {props.tasks?.map((task: TasksResponse, index: number) => (
             <Marker
-                onClick={(e) => console.log('test')}
+                icon={assets.MarkerFemale}
+                onClick={(e) => props.onSelect(task)}
                 key={task.id}
                 position={{ lat: task.coordinate.latitude, lng: task.coordinate.longitude }}
             />

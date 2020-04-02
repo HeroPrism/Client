@@ -19,14 +19,14 @@ export const Signup: FC<SignupProps> = (props) => {
                     <Box flex direction="row" width="xlarge" background="neutral">
                         <Box alignSelf="center" fill align="center">
                             <Box width="medium">
-                                <Heading textAlign="center" color="primary" level={3}>Get or give help to those in need in your community.</Heading>
+                                <Heading textAlign="center" color="primary" level={3}>Become a hero or ask a hero for help</Heading>
                                 <Box flex={false} as="footer" align="center" margin={{ vertical: "medium" }}>
                                     <Button primary
                                         color="red"
                                         onClick={() => loginWithRedirect({ initialScreen: "signUp" })}
                                         className={css.btn}
                                     >
-                                        Sign up asdf
+                                        Sign up
                                     </Button>
                                 </Box>
                             </Box>
@@ -34,7 +34,7 @@ export const Signup: FC<SignupProps> = (props) => {
                         <Box pad="xlarge" align="center" margin="none" fill background="primary">
                             <Box align="center">
                                 <img width="80%" height="auto" src={assets.LoginHero} />
-                                <Heading color="white" level={3} textAlign="center">Help those who need help</Heading>
+                                <Heading color="white" level={3} textAlign="center">Get help from your community</Heading>
                                 <Text textAlign="center" color="white">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </Text>
