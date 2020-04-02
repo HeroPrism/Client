@@ -60,7 +60,6 @@ interface TaskAction {
 }
 
 export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState => {
-    console.log(action.type);
     switch (action.type) {
         case 'SetTasks':
             return {
@@ -80,13 +79,13 @@ export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState =>
                 return { 
                     tasks: state.tasks,
                     bounds: state.bounds,
-                    page: state.page
+                    page: 0
                 };
             }
             return {
                 bounds: action.payload,
                 tasks: state.tasks,
-                page: state.page
+                page: 0
             };
     }
 }

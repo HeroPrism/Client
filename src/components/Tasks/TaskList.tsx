@@ -33,7 +33,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
             });
         }
         
-    }, [app.state.bounds]);
+    }, [app.state.bounds ]);
 
     const onPageChange = (page: number) => {
         app.dispatch({ type: "SetPage", payload: page })
@@ -68,6 +68,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
                         pageCount={tasks && (tasks.length / TASKS_PER_PAGE)}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
+                        forcePage={props.page}
                         onPageChange={(data) => onPageChange(data.selected)}
                         containerClassName={css.pagination}
                         pageClassName={css.page}
