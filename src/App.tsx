@@ -12,6 +12,7 @@ import { routes } from './routing';
 import { TasksResponse } from './services/TaskService/models/TasksResponse';
 import { TaskService } from './services/TaskService/TaskService';
 import { Auth0Provider } from './AuthenticationProvider';
+import { Bounds } from './services/TaskService/models/TasksRequest';
 
 const theme = {
     global: {
@@ -49,7 +50,7 @@ export interface IAppContext {
 
 interface TaskState {
     tasks?: any | [];
-    bounds?: any;
+    bounds?: Bounds;
 }
 
 interface TaskAction {

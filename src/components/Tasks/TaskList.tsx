@@ -22,35 +22,13 @@ export const TaskList: FC<TaskListProps> = (props) => {
     const [ displayedTasks, setDisplayedTasks ] = useState<TasksResponse[]>([]);
     const ref = useRef<HTMLDivElement>(null);
 
-    //TODO: Change this to come from bounds of the map.
-    const bounds : TasksRequest = {
-        bounds: {
-            nw: {
-                longitude: -112.9106,
-                latitude: 35.6096
-            },
-            ne: {
-                longitude: -109.8518,
-                latitude: 35.5247
-            },
-            sw: {
-                longitude: -112.8188,
-                latitude: 33.7463
-            },
-            se: {
-                longitude: -109.7558,
-                latitude: 33.7186
-            }
-        }
-    }
-
     useEffect(() => {
-        taskService.getTasks(bounds).then(tasks => { 
+        taskService.getTasks(app.state.bounds).then(tasks => { 
             app.dispatch({ type: "SetTasks", payload: tasks })
             setTasks(tasks);
             setDisplayedTasks(tasks.slice(((props.page || 1) - 1) * TASKS_PER_PAGE, ((props.page || 1) * TASKS_PER_PAGE)));
         });
-    }, []);
+    }, [app.state.bounds]);
 
     const onPageChange = (page: number) => {
         setDisplayedTasks(tasks.slice((page) * TASKS_PER_PAGE, ((page + 1) * TASKS_PER_PAGE)));
