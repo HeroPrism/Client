@@ -76,15 +76,18 @@ const MyMapComponent = withGoogleMap((props : any) =>
         ref={props.mapRef}
         defaultZoom={10}
         defaultCenter={props.center}
-        onDragEnd={props.onDragEnd}
         onBoundsChanged={props.onBoundsChanged}
-        defaultOptions={{ styles: mapStyles }}
+        defaultOptions={{ 
+            styles: mapStyles, 
+            disableDefaultUI: true,
+            zoomControl: true
+        }}
     >
         {props.tasks?.map((task: TasksResponse) => (
             <Marker
                 onClick={(e) => console.log('test')}
                 key={task.id}
-                position={{ lat: task.coordinates.lat, lng: task.coordinates.lng }}
+                position={{ lat: task.coordinate.latitude, lng: task.coordinate.longitude }}
             />
         ))}
     </GoogleMap>
@@ -104,7 +107,22 @@ export const Map: FC<MapProps> = (props) => {
     const mapRef = createRef<GoogleMap>();
 
     const onBoundsChanged = debounce(() => {
-        app.dispatch({ type: 'SetBounds', payload: mapRef.current?.getBounds() })
+        const bounds = mapRef.current?.getBounds();
+        const northEast = bounds?.getNorthEast();
+        const southWest = bounds?.getSouthWest();
+
+        app.dispatch({ type: 'SetBounds', payload: {
+            ne: northEast,
+            sw: southWest,
+            nw: {
+                latitude: northEast?.lat(),
+                longitude: southWest?.lng()
+            },
+            se: {
+                latitude: southWest?.lat(),
+                longitude: northEast?.lng()
+            }
+        }})
     }, 250);
 
     return (

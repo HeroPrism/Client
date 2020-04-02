@@ -1,17 +1,22 @@
 import { User } from "./User";
 
+export interface TaskResponseResult {
+    tasks: TasksResponse[];
+}
+
 export interface TasksResponse {
-    date: string;
+    createdDateTime: string;
     description: string;
     id: string;
-    pictureUrl?: string;
     title: string;
     user: User;
-    location: string;
-    coordinates: Coordinate;
+    zipCode: string;
+    coordinate: Coordinate;
+    category: string;
+    status: string;
 }
 
 export interface Coordinate {
-    lat: number;
-    lng: number;
+    longitude: number;
+    latitude: number;
 }

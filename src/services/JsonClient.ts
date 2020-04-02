@@ -5,7 +5,7 @@ export interface JsonClientOptions {
 }
 
 const DEFAULT_OPTIONS = {
-    basePath: "https://50992717.ngrok.io"
+    basePath: "https://heroprism.azurewebsites.net"
 };
 
 const DEFAULT_HEADERS: HeadersInit = {

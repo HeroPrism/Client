@@ -16,7 +16,7 @@ export const MapMarker: FC<MapMarkerProps> = (props) => {
     return (
         <Marker
             onClick={onMarkerClick}
-            position={{ lat: props.task.coordinates.lat, lng: props.task.coordinates.lng }}
+            position={{ lat: props.task.coordinate.latitude, lng: props.task.coordinate.longitude }}
             {...props}
         />
     );

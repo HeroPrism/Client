@@ -26,12 +26,20 @@ export const TaskList: FC<TaskListProps> = (props) => {
     const bounds : TasksRequest = {
         bounds: {
             nw: {
-                latitude: 31.34324,
-                longitude: -111.34342
+                longitude: -112.9106,
+                latitude: 35.6096
+            },
+            ne: {
+                longitude: -109.8518,
+                latitude: 35.5247
+            },
+            sw: {
+                longitude: -112.8188,
+                latitude: 33.7463
             },
             se: {
-                latitude: 31.23343,
-                longitude: -111.23434
+                longitude: -109.7558,
+                latitude: 33.7186
             }
         }
     }
@@ -58,14 +66,13 @@ export const TaskList: FC<TaskListProps> = (props) => {
                 <div onClick={() => props.onSelect(task)}>
                     <Task
                         key={task.id}
-                        date={task.date}
+                        date={task.createdDateTime}
                         description={task.description}
                         id={task.id}
-                        pictureUrl={task.pictureUrl}
                         title={task.title}
                         userName={task.user.name}
                         userScore={task.user.score}
-                        location={task.location}
+                        location={task.zipCode}
                     />       
                 </div>       
             )}

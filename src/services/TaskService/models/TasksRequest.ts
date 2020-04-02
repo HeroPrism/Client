@@ -4,6 +4,8 @@ export interface TasksRequest {
 
 export interface Bounds {
     nw: Coordinate;
+    ne: Coordinate;
+    sw: Coordinate;
     se: Coordinate;
 }
 
