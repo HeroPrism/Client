@@ -42,10 +42,6 @@ export const TaskCreator: FC = (props) => {
     const onTitleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
     const onDescriptionChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value), []);
     const onZipCodeChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setZipCode(e.target.value), []);
-
-    const navigateToTask = useCallback(() => {
-        history.push(path(RouteName.TaskDetails, { id: taskId }))
-    }, [taskId])
     
     const onCreateTask = useCallback(
         async (e: FormEvent) => {
@@ -117,7 +113,6 @@ export const TaskCreator: FC = (props) => {
             {taskCreated &&
                 <Box>
                     Task Created!
-                    <Text color="primary" className={styles.cursor} onClick={navigateToTask}>{`http://localhost:3000/help/${taskId}`}</Text>
                 </Box>
             }
         </Box>

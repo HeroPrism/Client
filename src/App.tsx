@@ -112,16 +112,17 @@ export const App : FC<AppProps> = (props) => {
                 client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
                 audience={"https://heroprism.azurewebsites.net/"}
                 redirect_uri={window.location.origin}
-                onRedirectCallback={onRedirectCallback} 
+                onRedirectCallback={onRedirectCallback}
+                history={history}
             >
                 
                 <AppContext.Provider value={{ state, dispatch }}>
                     <Router history={history}>
+                        <Header />
                         <Switch>
                             <RouteCollection routes={routes} />
                         </Switch>
                     </Router>
-                    <Header />
                 </AppContext.Provider>
             </Auth0Provider>
         </Grommet>

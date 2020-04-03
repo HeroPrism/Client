@@ -22,11 +22,19 @@ export class JsonClient implements ApiClient {
 
     public get = <T>(uri: string): Promise<T> => this.send<T>(uri, { method: "GET" });
 
+    public getWithAuth = <T>(uri: string, headers: any): Promise<T> => this.send<T>(uri, { method: "GET", headers: headers });
+
     public post = <TResponse = unknown>(uri: string, body: any) =>
         this.send<TResponse>(uri, { method: "POST", body: JSON.stringify(body) });
 
     public postWithAuth = <TResponse = unknown>(uri: string, body: any, headers: any) =>
         this.send<TResponse>(uri, { method: "POST", body: JSON.stringify(body), headers });
+
+    public put = <TResponse = unknown>(uri: string, body: any) =>
+        this.send<TResponse>(uri, { method: "PUT", body: JSON.stringify(body) });
+
+    public putWithAuth = <TResponse = unknown>(uri: string, body: any, headers: any) =>
+        this.send<TResponse>(uri, { method: "PUT", body: JSON.stringify(body), headers });
 
     private async send<T>(uri: string, request: RequestInit): Promise<T> {
         const response = await fetch(`${this.options.basePath}/${uri}`, {
@@ -34,12 +42,18 @@ export class JsonClient implements ApiClient {
             headers: { ...DEFAULT_HEADERS, ...request.headers }
         });
 
-        const content = await response.json();
+        let content;
+
+        try {
+            content = await response?.json();
+        } catch {
+            
+        }
 
         if (!response.ok) {
             throw Error(`Request to '${uri}' failed with status code ${response.status}.`);
         }
 
-        return content.data || content;
+        return content?.data || content;
     }
 }

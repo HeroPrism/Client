@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
+import { GetUserResponse } from './services/UserService/models/GetUserResponse'
+import { UserService } from './services/UserService/UserService'
+import { CreateUserRequest } from './services/UserService/models/CreateUserRequest'
+import { useHistory } from 'react-router-dom'
+import { RouteName, path } from './routing'
 
 export interface Auth0RedirectState {
   targetUrl?: string
@@ -10,9 +15,13 @@ export interface Auth0User extends Omit<IdToken, '__raw'> {}
 
 interface Auth0Context {
   user?: Auth0User
+  dbUser?: GetUserResponse
+  completedRegistration: boolean
   isAuthenticated: boolean
   isInitializing: boolean
   isPopupOpen: boolean
+  registerUser(user: CreateUserRequest): void;
+  updateProfile(user: CreateUserRequest): void;
   loginWithPopup(o?: PopupLoginOptions): Promise<void>
   handleRedirectCallback(): Promise<RedirectLoginResult>
   getIdTokenClaims(o?: getIdTokenClaimsOptions): Promise<IdToken>
@@ -31,13 +40,17 @@ export const useAuth0 = () => useContext(Auth0Context)!
 export const Auth0Provider = ({
   children,
   onRedirectCallback,
+  history,
   ...initOptions
 }: Auth0ProviderOptions & Auth0ClientOptions) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [completedRegistration, setCompletedRegistration] = useState(false)
   const [isInitializing, setIsInitializing] = useState(true)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [user, setUser] = useState<Auth0User>()
+  const [dbUser, setDbUser] = useState<GetUserResponse>()
   const [auth0Client, setAuth0Client] = useState<Auth0Client>()
+  const userService = new UserService();
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -61,13 +74,27 @@ export const Auth0Provider = ({
 
         setIsAuthenticated(true)
         setUser(userProfile)
+
+        if (isAuthenticated) {
+            getUser();
+        }
       }
 
       setIsInitializing(false)
     }
     
     initAuth0()
-  }, [])
+  }, [isAuthenticated])
+
+  const getUser = async () => {
+    userService.get(await getTokenSilently()).then(dbUser => {
+        setDbUser(dbUser);
+        setCompletedRegistration(true);
+    }).catch(() => {
+        //Hasn't completed profile yet after registration
+        history.push(path(RouteName.Profile))
+    })
+  }
 
   const loginWithPopup = async (options?: PopupLoginOptions) => {
     setIsPopupOpen(true)
@@ -113,11 +140,28 @@ export const Auth0Provider = ({
   const getTokenWithPopup = (options?: GetTokenWithPopupOptions) =>
     auth0Client!.getTokenWithPopup(options)
 
+  const registerUser = (user: CreateUserRequest) => {
+      getTokenSilently().then(token => {
+        userService.register(user, token);
+        getUser()
+      });
+  }
+  const updateProfile = (user: CreateUserRequest) => {
+    return getTokenSilently().then(token => {
+        userService.updateProfile(user, token);
+        getUser()
+      });
+}
+
   return (
     <Auth0Context.Provider
       value={{
         user,
+        dbUser,
+        registerUser,
+        updateProfile,
         isAuthenticated,
+        completedRegistration,
         isInitializing,
         isPopupOpen,
         loginWithPopup,
