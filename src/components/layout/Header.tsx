@@ -6,6 +6,7 @@ import { FormDown } from "grommet-icons";
 import * as assets from "../../assets";
 import { useHistory } from "react-router-dom";
 import { path, RouteName } from "../../routing";
+import { Avatar } from "../../assets/Avatar";
 
 export const Header : FC = () => {
     const size = React.useContext(ResponsiveContext);
@@ -65,7 +66,7 @@ export const Header : FC = () => {
                                     pad="small"
                                 >
                                     <Box justify="center">{dbUser?.firstName}</Box>
-                                    <Box justify="center"><img width="40px" src={assets.Avatar1}></img></Box>
+                                    <Box justify="center"><img width="40px" src={Avatar(dbUser?.pictureId || 1)}></img></Box>
                                     <Box justify="center"><FormDown /></Box>
                                 </Box>
                         </Menu>

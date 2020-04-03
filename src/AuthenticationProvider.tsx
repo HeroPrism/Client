@@ -142,15 +142,17 @@ export const Auth0Provider = ({
 
   const registerUser = (user: CreateUserRequest) => {
       getTokenSilently().then(token => {
-        userService.register(user, token);
-        getUser()
+        userService.register(user, token).then(() => {
+            getUser()
+        });
       });
   }
   const updateProfile = (user: CreateUserRequest) => {
-    return getTokenSilently().then(token => {
-        userService.updateProfile(user, token);
-        getUser()
-      });
+    getTokenSilently().then(token => {
+        userService.updateProfile(user, token).then(() => {
+            getUser()
+        });
+    });
 }
 
   return (

@@ -17,6 +17,7 @@ import { Bounds } from './services/TaskService/models/TasksRequest';
 const theme = {
     global: {
         colors: {
+            "brand":  "#03A5FC",
             "primary": "#03A5FC",
             "secondary": "#6F94BC",
             "tertiary": "#E6F4F1",
