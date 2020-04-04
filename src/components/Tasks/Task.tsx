@@ -2,7 +2,8 @@ import React, { useState, FC } from 'react';
 import { Box, Text, Heading } from 'grommet';
 import * as assets from "../../assets";
 import css from "./Task.module.scss";
-import src from '*.bmp';
+import { User } from '../../services/TaskService/models/User';
+import { Avatar } from '../../assets/Avatar';
 
 interface TaskProps {    
     date: string;
@@ -11,6 +12,7 @@ interface TaskProps {
     pictureUrl?: string;
     title: string;
     location: string;
+    user: User;
 }
 
 export const Task: FC<TaskProps> = (props) => {
@@ -31,12 +33,12 @@ export const Task: FC<TaskProps> = (props) => {
                     </Box>
                 </Box>
                 <Box align="center" width="20%" pad={{ vertical: "medium"} }>
-                    <img className={css.avatar} src={assets.Avatar1}></img>
+                    <img className={css.avatar} src={Avatar(props.user.pictureId)}></img>
                     <Box className={css.userScore}>
-                        22
+                        {props.user.score}
                     </Box>
                     <Box margin={{ top: "xsmall" }}>
-                        <Text color="primary" size="large">Chris</Text>
+                        <Text color="primary" size="large">{props.user.firstName}</Text>
                     </Box>
                 </Box>
             </Box>

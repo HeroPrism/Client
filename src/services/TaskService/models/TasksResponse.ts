@@ -9,7 +9,7 @@ export interface TasksResponse {
     description: string;
     id: string;
     title: string;
-    user: User;
+    requester: User;
     zipCode: string;
     coordinate: Coordinate;
     category: string;

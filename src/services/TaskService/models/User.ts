@@ -1,6 +1,6 @@
 export interface User {
-    id: string;
-    name: string;
+    firstName: string;
     score: number;
-    joinedDate: string;
+    userType: string;
+    pictureId: number;
 }

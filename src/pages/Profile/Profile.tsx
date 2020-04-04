@@ -110,7 +110,7 @@ export const Profile: FC = () => {
                     <Box border={{ side: "bottom", color: "tertiary" }}></Box>
                     {!editAvatar &&
                         <>
-                            {isAuthenticated && completedRegistration &&
+                            {isAuthenticated &&
                                 <>
                                     {completedRegistration && !editMode &&
                                         <Box direction={ size == "small" ? "column" : "row" } margin={{ top: "large" }} gap={ size == "small" ? "large" : "small" } justify="between">

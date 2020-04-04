@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, ResponsiveContext, Menu, Stack, Text } from "grommet";
-import { Notification } from "grommet-icons";
+import { Notification, Chat, ChatOption, MailOption } from "grommet-icons";
 import { useAuth0 } from "../../AuthenticationProvider";
 import { FormDown } from "grommet-icons";
 import * as assets from "../../assets";
@@ -16,6 +16,10 @@ export const Header : FC = () => {
 
     const onProfileClick = () => {
         history.push(path(RouteName.Profile));
+    }
+
+    const onMessagesClick = () => {
+        history.push(path(RouteName.Messages));
     }
 
     return (
@@ -38,15 +42,16 @@ export const Header : FC = () => {
                     }
                     {isAuthenticated &&
                         <Box direction="row">
-                            <Box onClick={() => {}} justify="center" pad={{ top: "11px" }} margin={{ right: "small" }}>
+                            <Box onClick={onMessagesClick} justify="center" pad={{ top: "11px" }} margin={{ right: "small" }}>
                                 <Stack anchor="top-right">
-                                    <Notification size="28px" />
+                                    <MailOption size="28px" />
                                     <Box
                                         background="red"
-                                        pad={{ horizontal: 'xsmall' }} margin={{top: "-8px"}}
+                                        align="center"
+                                        pad={{ horizontal: '8px' }} margin={{top: "-10px", left: "-4px"}}
                                         round
                                     >
-                                        <Text color="white" size="small">8</Text>
+                                        <Text color="white" size="small">1</Text>
                                     </Box>
                                 </Stack>
                             </Box>

@@ -60,6 +60,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
                                 id={task.id}
                                 title={task.title}
                                 location={task.zipCode}
+                                user={task.requester}
                             />       
                         </div>       
                     )}
