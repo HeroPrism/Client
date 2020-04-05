@@ -17,6 +17,14 @@ interface TaskProps {
 
 export const Task: FC<TaskProps> = (props) => {
     const description = props.description.length > 140 ? props.description.substring(0, 140) + "..." : props.description;
+    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }) 
+
+    const formatDate = (dateString: string) : string  => {
+        const date = new Date(dateString);
+        const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(date);
+
+        return `${mo}/${da}/${ye}`;
+    }
 
     return (
         <div className={css.taskWrapper}>
@@ -26,7 +34,7 @@ export const Task: FC<TaskProps> = (props) => {
                         <Heading margin={"none"} level={4} color="primary" size="large">{props.title}</Heading>
                     </Box>
                     <Box>
-                        <Text size="small">Posted on 3/28/20 - <Text color="secondary" size="small">{props.location}</Text></Text>
+                        <Text size="small">Posted on {formatDate(props.date)} - <Text color="secondary" size="small">{props.location}</Text></Text>
                     </Box>
                     <Box margin={{ top: "medium" }}>
                         <Text size="small">{description}</Text>
