@@ -1,3 +1,3 @@
 export interface OfferHelpResponse {
-    chadId: string;
+    chatId: string;
 }

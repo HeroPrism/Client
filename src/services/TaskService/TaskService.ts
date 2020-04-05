@@ -7,11 +7,20 @@ import { CreateTaskResponse } from "./models/CreateTaskResponse";
 import { MyRequestResponse, MyRequestResponseResult } from "./models/MyRequestsResponse";
 import { OfferHelpResponse } from "./models/OfferHelpResponse";
 import { OfferHelpRequest } from "./models/OfferHelpRequest";
+import { TaskConversations } from "./models/TaskConversations";
 
 export class TaskService {
     
 
     private api: ApiClient = new JsonClient();
+
+    public async getChatsByTask(taskId?: string, token?: string) : Promise<TaskConversations> {
+        const headers = {
+            Authorization: `Bearer ${token}`
+        }
+
+        return await this.api.getWithAuth<TaskConversations>(`tasks/${taskId}`, headers);
+    }
 
     public async offerHelp(request: OfferHelpRequest, token?: string) : Promise<OfferHelpResponse> {
         const headers = {
@@ -19,6 +28,16 @@ export class TaskService {
         }
 
         return await this.api.postWithAuth<OfferHelpResponse>("tasks/help", request, headers);
+    }
+
+    public async deleteTask(taskId?: any, token?: string) : Promise<boolean> {
+        const headers = {
+            Authorization: `Bearer ${token}`
+        }
+
+        const result =  await this.api.postWithAuth("tasks/delete", taskId, headers);
+
+        return true;
     }
 
     public async createTask(request: CreateTaskRequest, token?: string) : Promise<CreateTaskResponse> {

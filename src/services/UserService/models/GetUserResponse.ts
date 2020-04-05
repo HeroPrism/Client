@@ -4,4 +4,10 @@ export interface GetUserResponse {
     lastName: string;
     userType: string;
     score: number;
+    chatToken: ChatToken;
+}
+
+export interface ChatToken {
+    token: string;
+    expiration: string;
 }

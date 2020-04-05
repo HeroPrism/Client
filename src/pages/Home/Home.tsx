@@ -23,6 +23,7 @@ export enum TaskView {
 
 export const Home: FC = () => {
     const taskService = new TaskService();
+    const history = useHistory();
     const size = useContext(ResponsiveContext);
     const location = useLocation();
     const app = useContext(AppContext);
@@ -47,7 +48,7 @@ export const Home: FC = () => {
     const onHelpClick = () => {
         getTokenSilently().then(token => {
            taskService.offerHelp({ taskId: selectedTask?.id }, token).then(chat => {
-               console.log(chat.chadId)
+               history.push(path(RouteName.Chat, { chatId: chat.chatId }));
            });
         });
     }

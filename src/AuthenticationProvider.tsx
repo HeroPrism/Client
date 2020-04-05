@@ -11,7 +11,9 @@ export interface Auth0RedirectState {
   targetUrl?: string
 }
 
-export interface Auth0User extends Omit<IdToken, '__raw'> {}
+export interface Auth0User extends Omit<IdToken, '__raw'> {
+    sub: string;
+}
 
 interface Auth0Context {
   user?: Auth0User

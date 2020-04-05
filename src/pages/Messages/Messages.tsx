@@ -5,6 +5,8 @@ import { useAuth0 } from '../../AuthenticationProvider';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { MyRequestResponse } from '../../services/TaskService/models/MyRequestsResponse';
 import { request } from 'https';
+import { useHistory } from 'react-router-dom';
+import { RouteName, path } from '../../routing';
 
 export enum MessageType {
     Request,
@@ -13,6 +15,7 @@ export enum MessageType {
 
 export const Messages: FC = () => {
     const taskService = new TaskService();
+    const history = useHistory();
     const [ activeMessageType, setActiveMessageType ] = useState<MessageType>(MessageType.Request);
     const { getTokenSilently, isAuthenticated } = useAuth0();
     const [ requests, setRequests ] = useState<MyRequestResponse[]>([]);
@@ -36,10 +39,14 @@ export const Messages: FC = () => {
             }
         }
     }, [activeMessageType, isAuthenticated]);
+
+    const onRequestClick = (id: string) => {
+        history.push(path(RouteName.RequestConversations, { id: id }));
+    }
     
     return (    
-        <Box flex    margin={{ top: "75px" }}>
-            <Box direction="row" background="white" border={{ side: "bottom", color: "#eeeeee" }} fill>
+        <Box flex  margin={{ top: "75px" }}>
+            <Box direction="row" pad="small" background="white" border={{ side: "bottom", color: "#eeeeee" }} fill>
                 <Box 
                     onClick={() => setActiveMessageType(MessageType.Request)} 
                     pad="medium" align="center" 
@@ -59,7 +66,7 @@ export const Messages: FC = () => {
             {activeMessageType == MessageType.Request &&
                 <Box margin="small">
                     {requests?.map(request => 
-                        <Box margin={{ bottom: "small" }} pad="large" border={{ side: "all", color: "tertiary" }}>
+                        <Box onClick={() => onRequestClick(request.id)} margin={{ bottom: "small" }} pad="large" border={{ side: "all", color: "tertiary" }}>
                             <Box direction="row" justify="between">
                                 <Box alignSelf="center"><Text color="primary">{request.title}</Text></Box>
                                 <Box alignSelf="center">

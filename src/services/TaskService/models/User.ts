@@ -4,3 +4,4 @@ export interface User {
     userType: string;
     pictureId: number;
 }
+
