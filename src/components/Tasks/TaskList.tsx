@@ -55,14 +55,14 @@ export const TaskList: FC<TaskListProps> = (props) => {
                         <div onClick={() => props.onSelect(task)}>
                             <Task
                                 key={task.id}
-                                date={task.createdDateTime}
+                                date={task.createDateTime}
                                 description={task.description}
                                 id={task.id}
                                 title={task.title}
                                 location={task.zipCode}
                                 user={task.requester}
                             />       
-                        </div>       
+                        </div>
                     )}
                     <Box margin="auto">
                         <ReactPaginate

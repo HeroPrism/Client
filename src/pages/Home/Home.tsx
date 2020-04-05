@@ -13,6 +13,7 @@ import { TaskDetails } from '../../components/Tasks/TaskDetails';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { Signup } from '../../components/Signup/Signup';
 import { AppContext } from '../../App';
+import { TaskService } from '../../services/TaskService/TaskService';
 
 export enum TaskView {
     Create,
@@ -21,13 +22,14 @@ export enum TaskView {
 }
 
 export const Home: FC = () => {
+    const taskService = new TaskService();
     const size = useContext(ResponsiveContext);
     const location = useLocation();
     const app = useContext(AppContext);
     const [ toggleMap, setToggleMap ] = useState<boolean>(false);
     const [ selectedTask, setSelectedTask ] = useState<TasksResponse>();
     const [ signupOpen, setSignupOpen ] = useState<boolean>(false);
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, getTokenSilently } = useAuth0();
     const [ showAskForHelp, setShowAskForHelp ] = useState<boolean>(false);
     const [ showTaskDetails, setShowTaskDetails ] = useState<boolean>(location.pathname.includes("help/"));
 
@@ -40,6 +42,14 @@ export const Home: FC = () => {
         } else {
             setSignupOpen(true);
         }
+    }
+
+    const onHelpClick = () => {
+        getTokenSilently().then(token => {
+           taskService.offerHelp({ taskId: selectedTask?.id }, token).then(chat => {
+               console.log(chat.chadId)
+           });
+        });
     }
 
     const onAskForHelpCancel = () => {
@@ -112,7 +122,7 @@ export const Home: FC = () => {
                 <Box>
                     <Button primary
                         color="primary"
-                        type="submit"
+                        onClick={onHelpClick}
                         className={styles.btn}
                     >
                         {"Offer help"}

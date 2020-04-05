@@ -5,7 +5,7 @@ export interface TaskResponseResult {
 }
 
 export interface TasksResponse {
-    createdDateTime: string;
+    createDateTime: string;
     description: string;
     id: string;
     title: string;
