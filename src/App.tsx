@@ -53,6 +53,8 @@ interface TaskState {
     tasks?: any | [];
     page?: number
     bounds?: Bounds;
+    center?: any;
+    zoom?: any;
 }
 
 interface TaskAction {
@@ -66,13 +68,17 @@ export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState =>
             return {
                 tasks: action.payload,
                 bounds: state.bounds,
-                page: state.page
+                page: state.page,
+                center: state.center,
+                zoom: state.zoom
             }
         case 'SetPage':
             return {
                 page: action.payload,
                 tasks: state.tasks,
-                bounds: state.bounds
+                bounds: state.bounds,
+                center: state.center,
+                zoom: state.zoom
             }
         case 'SetBounds':
         default:
@@ -80,13 +86,17 @@ export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState =>
                 return { 
                     tasks: state.tasks,
                     bounds: state.bounds,
-                    page: 0
+                    page: 0,
+                    center: state.center,
+                    zoom: state.zoom
                 };
             }
             return {
-                bounds: action.payload,
+                bounds: action.payload.bounds,
                 tasks: state.tasks,
-                page: 0
+                page: 0,
+                center: action.payload.center,
+                zoom: action.payload.zoom
             };
     }
 }
@@ -104,7 +114,14 @@ const onRedirectCallback = (redirectResult?: RedirectLoginResult) => {
 };
 
 export const App : FC<AppProps> = (props) => {
-    const [ state, dispatch ] = useReducer(TaskReducer, { page: 0 });
+    const [ state, dispatch ] = useReducer(TaskReducer, { 
+        page: 0,
+        center: {
+            lat: 33.425522,
+            lng: -111.941254
+        },
+        zoom: 10
+    });
 
     return (
         <Grommet theme={theme} className="App" full>

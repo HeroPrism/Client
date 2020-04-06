@@ -8,7 +8,11 @@ body {
 }
 
 .str-chat-channel {
-    max-height: calc(100vh - 75px) !important;
+    max-height: calc(100vh - 143px) !important;
+}
+
+.str-chat__container {
+    background-color: white !important;
 }
 
 code {
