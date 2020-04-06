@@ -33,8 +33,8 @@ export const Header : FC = () => {
                 align="center"
                 justify="between"
             >
-                <Box>
-                    Helper Logo
+                <Box onClick={() => history.push(path(RouteName.Index))}>
+                    <img src={assets.Logo} width="65px" />
                 </Box>
                 <Box direction="row" gap="medium">
                     {!isAuthenticated &&

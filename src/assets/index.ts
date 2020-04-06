@@ -9,3 +9,5 @@ export { default as Avatar8 } from "./Avatar8.png";
 export { default as LoginHero } from "./LoginHero.png";
 export { default as MarkerMale } from "./MarkerMale.png";
 export { default as MarkerFemale } from "./MarkerFemale.png";
+export { default as Logo } from "./Logo.png";
+export { default as MapMarker } from "./MapMarker.svg";

@@ -1,5 +1,5 @@
-import React, { useState, FC } from 'react';
-import { Box, Text, Heading } from 'grommet';
+import React, { useState, FC, useContext } from 'react';
+import { Box, Text, Heading, ResponsiveContext } from 'grommet';
 import * as assets from "../../assets";
 import css from "./Task.module.scss";
 import src from '*.bmp';
@@ -13,16 +13,28 @@ interface TaskDetailsProps {
 
 export const TaskDetails: FC<TaskDetailsProps> = (props) => {
     const { task } = props;
+    const size = useContext(ResponsiveContext);
+
     return (
-        <Box>
-            <Box pad="medium" animation={["fadeIn", "slideUp"]}>
-                <Box fill align="center" pad={{ vertical: "medium"} }>
+        <Box animation={["fadeIn", "slideUp"]} background="neutral">
+            <Box fill style={{ minHeight: "calc(100vh - 143px)" }}>
+                <Box background="white" pad="large" fill align="center" elevation="small">
                     <img width="120px" src={Avatar(task?.requester.pictureId || 1)}></img>
                     <Box className={css.userScore}>
                         {task?.requester.score}
                     </Box>
                     <Box margin={{ top: "xsmall" }}>
-                        <Text color="primary" size="large">{task?.requester.firstName}</Text>
+                        <Text color="secondary">{task?.requester.firstName}</Text>
+                    </Box>
+                </Box>
+                <Box pad={size == "small" ? "medium" : "small" }>
+                    <Box background="white" pad="medium" round="small">
+                        <Box margin={{ bottom: "medium" }}>
+                            <Text color="secondary">{task?.title}</Text>
+                        </Box>
+                        <Box>
+                            <Text size="small">{task?.description}</Text>
+                        </Box>
                     </Box>
                 </Box>
             </Box>

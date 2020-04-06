@@ -1,10 +1,9 @@
-import React, { useState, FC, useContext, createRef, useEffect, ComponentClass, Children } from 'react';
+import React, { useState, FC, useContext, createRef } from 'react';
 import { GoogleMap, Marker, withGoogleMap } from "react-google-maps"
 import  debounce from 'lodash.debounce';
 import { AppContext } from '../../App';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
-import { ResponsiveContext, Box } from 'grommet';
-import { MapMarker } from './MapMarker';
+import { ResponsiveContext } from 'grommet';
 import * as assets from "../../assets";
 
 const mapStyles: any = [
@@ -75,9 +74,10 @@ const mapStyles: any = [
 const MyMapComponent = withGoogleMap((props : any) =>
     <GoogleMap
         ref={props.mapRef}
-        defaultZoom={10}
+        defaultZoom={props.zoom}
         defaultCenter={props.center}
         onBoundsChanged={props.onBoundsChanged}
+        onZoomChanged={props.onBoundsChanged}
         defaultOptions={{ 
             styles: mapStyles, 
             disableDefaultUI: true,
@@ -86,7 +86,12 @@ const MyMapComponent = withGoogleMap((props : any) =>
     >
         {props.tasks?.map((task: TasksResponse, index: number) => (
             <Marker
-                icon={assets.MarkerFemale}
+                icon={{
+                    size: new google.maps.Size(42, 27),
+                    url: assets.MapMarker,
+                    origin: new google.maps.Point(0, 0),
+                    scaledSize: new google.maps.Size(42, 27)
+                }}                
                 onClick={(e) => props.onSelect(task)}
                 key={task.id}
                 position={{ lat: task.coordinate.latitude, lng: task.coordinate.longitude }}
@@ -102,35 +107,39 @@ interface MapProps {
 export const Map: FC<MapProps> = (props) => {
     const size = useContext(ResponsiveContext);
     const app = useContext(AppContext);
-    const [ center, setCenter ] = useState({
-        lat: 33.425522,
-        lng: -111.941254
-    });
+    const [ center ] = useState(app.state.center);
+    const [ zoom ] = useState(app.state.zoom);
     const mapRef = createRef<GoogleMap>();
 
     const onBoundsChanged = debounce(() => {
         const bounds = mapRef.current?.getBounds();
         const northEast = bounds?.getNorthEast();
         const southWest = bounds?.getSouthWest();
+        const center = mapRef?.current?.getCenter();
+        const zoom = mapRef?.current?.getZoom();
 
         if (northEast) {
             app.dispatch({ type: 'SetBounds', payload: {
-                ne: {
-                    latitude: northEast?.lat(),
-                    longitude: northEast?.lng()
+                bounds: {
+                    ne: {
+                        latitude: northEast?.lat(),
+                        longitude: northEast?.lng()
+                    },
+                    sw: {
+                        latitude: southWest?.lat(),
+                        longitude: southWest?.lng()
+                    },
+                    nw: {
+                        latitude: northEast?.lat(),
+                        longitude: southWest?.lng()
+                    },
+                    se: {
+                        latitude: southWest?.lat(),
+                        longitude: northEast?.lng()
+                    }
                 },
-                sw: {
-                    latitude: southWest?.lat(),
-                    longitude: southWest?.lng()
-                },
-                nw: {
-                    latitude: northEast?.lat(),
-                    longitude: southWest?.lng()
-                },
-                se: {
-                    latitude: southWest?.lat(),
-                    longitude: northEast?.lng()
-                }
+                center: center,
+                zoom: zoom
             }})
         }
     }, 250);
@@ -141,6 +150,7 @@ export const Map: FC<MapProps> = (props) => {
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
                 center={center}
+                zoom={zoom}
                 tasks={app.state.tasks}
                 mapRef={mapRef}
                 onSelect={props.onSelect}

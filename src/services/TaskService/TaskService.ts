@@ -8,6 +8,7 @@ import { MyRequestResponse, MyRequestResponseResult } from "./models/MyRequestsR
 import { OfferHelpResponse } from "./models/OfferHelpResponse";
 import { OfferHelpRequest } from "./models/OfferHelpRequest";
 import { TaskConversations } from "./models/TaskConversations";
+import { MyOffersResponse, MyOffersResponseResult } from "./models/MyOffersResponse";
 
 export class TaskService {
     
@@ -64,71 +65,13 @@ export class TaskService {
         return response.tasks;
     }
 
-    public async getOffers(token?: string) : Promise<TasksResponse[]> {
+    public async getOffers(token?: string) : Promise<MyOffersResponse[]> {
         const headers = {
             Authorization: `Bearer ${token}`
         }
 
-        //var response = await this.api.postWithAuth<TaskResponseResult>("tasks/search", request, headers);
+        var response = await this.api.getWithAuth<MyOffersResponseResult>("tasks/offers", headers);
 
-        return [
-            {
-                createDateTime: "4/3/2020",
-                description: "description",
-                id: "id",
-                title: "title",
-                requester: {
-                    firstName: "name",
-                    score: 1,
-                    userType: "Individual",
-                    pictureId: 1
-                },
-                zipCode: "zipCode",
-                coordinate: {
-                    latitude: 33.4234,
-                    longitude: -111.88
-                },
-                category: "category",
-                status: "New"
-            },
-            {
-                createDateTime: "4/3/2020",
-                description: "description",
-                id: "id",
-                title: "title",
-                requester: {
-                    firstName: "name",
-                    score: 1,
-                    userType: "Individual",
-                    pictureId: 1
-                },
-                zipCode: "zipCode",
-                coordinate: {
-                    latitude: 33.4234,
-                    longitude: -111.88
-                },
-                category: "category",
-                status: "New"
-            },
-            {
-                createDateTime: "4/3/2020",
-                description: "description",
-                id: "id",
-                title: "title",
-                requester: {
-                    firstName: "name",
-                    score: 1,
-                    userType: "Individual",
-                    pictureId: 1
-                },
-                zipCode: "zipCode",
-                coordinate: {
-                    latitude: 33.4234,
-                    longitude: -111.88
-                },
-                category: "category",
-                status: "New"
-            }
-        ];
+        return response.tasks;
     }
 }

@@ -27,7 +27,7 @@ export const Home: FC = () => {
     const size = useContext(ResponsiveContext);
     const location = useLocation();
     const app = useContext(AppContext);
-    const [ toggleMap, setToggleMap ] = useState<boolean>(false);
+    const [ toggleMap, setToggleMap ] = useState<boolean>(true);
     const [ selectedTask, setSelectedTask ] = useState<TasksResponse>();
     const [ signupOpen, setSignupOpen ] = useState<boolean>(false);
     const { isAuthenticated, getTokenSilently } = useAuth0();
@@ -35,6 +35,15 @@ export const Home: FC = () => {
     const [ showTaskDetails, setShowTaskDetails ] = useState<boolean>(location.pathname.includes("help/"));
 
     const [ taskView, setTaskView ] = useState<TaskView>(TaskView.List);
+
+    useEffect(() => {
+        if (app.state.bounds != undefined) {
+            taskService.getTasks({ bounds: app.state.bounds }).then(tasks => { 
+                app.dispatch({ type: "SetTasks", payload: tasks });
+            });
+        }
+        
+    }, [app.state.bounds]);
 
     const onAskForHelp = () => {
         if (isAuthenticated) {
@@ -159,19 +168,19 @@ export const Home: FC = () => {
                         {renderNav()}
                         <Signup isOpen={signupOpen} setOpen={setSignupOpen} />
                     </Box>
-                    <Box pad={{ top: "small" }} className={css.sidebar}>
+                    <Box className={css.sidebar}>
                         {showTaskDetails &&
                             <TaskDetails task={selectedTask} />
                         }
-                        {!showTaskDetails &&
-                            <>
+                        {!showTaskDetails && app.state.tasks &&
+                            <Box pad={{ top: "small" }}>
                                 {showAskForHelp &&
                                     <TaskCreator />
                                 }
                                 {!showAskForHelp &&
-                                    <TaskList onSelect={onOpenTaskDetails} page={app.state.page} tasks={app.state.tasks} />
+                                    <TaskList onSelect={onOpenTaskDetails} />
                                 }
-                            </>
+                            </Box>
                         }
                     </Box>     
                 </Box>

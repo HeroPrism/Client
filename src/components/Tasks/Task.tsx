@@ -31,7 +31,7 @@ export const Task: FC<TaskProps> = (props) => {
             <Box flex direction="row">
                 <Box width="80%" pad="small">
                     <Box>
-                        <Heading margin={"none"} level={4} color="primary" size="large">{props.title}</Heading>
+                        <Text margin={"none"}  color="secondary" size="medium">{props.title}</Text>
                     </Box>
                     <Box>
                         <Text size="small">Posted on {formatDate(props.date)} - <Text color="secondary" size="small">{props.location}</Text></Text>
@@ -46,7 +46,7 @@ export const Task: FC<TaskProps> = (props) => {
                         {props.user.score}
                     </Box>
                     <Box margin={{ top: "xsmall" }}>
-                        <Text color="primary" size="large">{props.user.firstName}</Text>
+                        <Text color="secondary" size="medium">{props.user.firstName}</Text>
                     </Box>
                 </Box>
             </Box>
