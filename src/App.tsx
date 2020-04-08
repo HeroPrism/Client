@@ -1,5 +1,6 @@
 import React, { FC, createContext, useReducer } from 'react';
 import { createBrowserHistory, History } from "history";
+import { CookiesProvider } from "react-cookie";
 import { Router, Switch } from "react-router-dom";
 import { Grommet } from 'grommet';
 import { Header } from './components/Layout/Header';
@@ -119,24 +120,26 @@ export const App : FC<AppProps> = (props) => {
 
     return (
         <Grommet theme={theme} className="App" full>
-            <Auth0Provider
-                domain="dev-v5r9df8o.auth0.com"
-                client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
-                audience={"https://heroprism.azurewebsites.net/"}
-                redirect_uri={window.location.origin}
-                onRedirectCallback={onRedirectCallback}
-                history={history}
-            >
-                
-                <AppContext.Provider value={{ state, dispatch }}>
-                    <Router history={history}>
-                        <Header />
-                        <Switch>
-                            <RouteCollection routes={routes} />
-                        </Switch>
-                    </Router>
-                </AppContext.Provider>
-            </Auth0Provider>
+            <CookiesProvider>
+                <Auth0Provider
+                    domain="dev-v5r9df8o.auth0.com"
+                    client_id={"daisST4Z4C24Pg81Atd7XJJncCPea287"}
+                    audience={"https://heroprism.azurewebsites.net/"}
+                    redirect_uri={window.location.origin}
+                    onRedirectCallback={onRedirectCallback}
+                    history={history}
+                >
+                    
+                    <AppContext.Provider value={{ state, dispatch }}>
+                        <Router history={history}>
+                            <Header />
+                            <Switch>
+                                <RouteCollection routes={routes} />
+                            </Switch>
+                        </Router>
+                    </AppContext.Provider>
+                </Auth0Provider>
+            </CookiesProvider>
         </Grommet>
     );
 }

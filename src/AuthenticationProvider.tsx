@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useCookies } from "react-cookie";
 import createAuth0Client from '@auth0/auth0-spa-js'
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
 import { GetUserResponse } from './services/UserService/models/GetUserResponse'
@@ -44,6 +45,7 @@ export const Auth0Provider = ({
   history,
   ...initOptions
 }: Auth0ProviderOptions & Auth0ClientOptions) => {
+  const [ cookies, setCookie ] = useCookies();
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [completedRegistration, setCompletedRegistration] = useState(false)
   const [isInitializing, setIsInitializing] = useState(true)
@@ -88,13 +90,23 @@ export const Auth0Provider = ({
   }, [isAuthenticated])
 
   const getUser = async () => {
-    userService.get(await getTokenSilently()).then(dbUser => {
-        setDbUser(dbUser);
+    const userCookie = cookies["user"];
+    
+    if (cookies["user"]) {
+        setDbUser(userCookie);
         setCompletedRegistration(true);
-    }).catch(() => {
-        //Hasn't completed profile yet after registration
-        history.push(path(RouteName.Profile))
-    })
+    } else {
+        userService.get(await getTokenSilently()).then(dbUser => {
+            setDbUser(dbUser);
+            setCompletedRegistration(true);
+            setCookie("user", dbUser, {
+                expires: new Date(dbUser.chatToken.expiration)
+            });
+        }).catch(() => {
+            //Hasn't completed profile yet after registration
+            history.push(path(RouteName.Profile))
+        })
+    }
   }
 
   const loginWithPopup = async (options?: PopupLoginOptions) => {
@@ -129,8 +141,22 @@ export const Auth0Provider = ({
   const loginWithRedirect = (options?: RedirectLoginOptions) =>
     auth0Client!.loginWithRedirect(options)
 
-  const getTokenSilently = (options?: GetTokenSilentlyOptions) =>
-    auth0Client!.getTokenSilently(options)
+  const getTokenSilently = (options?: GetTokenSilentlyOptions) => {
+    const token = cookies["hpAuth"];
+
+    if (token) {
+        return Promise.resolve(token);
+    }
+
+    return auth0Client!.getTokenSilently(options).then(token => {
+        setCookie("hpAuth", token, {
+            expires: new Date(new Date().getTime() + token.expires_in)
+        });
+
+        return Promise.resolve(token);
+    });
+    
+  }
 
   const logout = (options?: LogoutOptions) =>
     auth0Client!.logout(options)
