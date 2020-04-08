@@ -11,8 +11,7 @@ import { Avatar } from "../../assets/Avatar";
 export const Header : FC = () => {
     const history = useHistory();
     const { isAuthenticated, loginWithRedirect, logout, dbUser } = useAuth0();
-
-    const [ notifications ] = useState(true);
+    const [ notifications ] = useState(0);
 
     const onProfileClick = () => {
         history.push(path(RouteName.Profile));
@@ -45,7 +44,7 @@ export const Header : FC = () => {
                             <Box onClick={onMessagesClick} justify="center" pad={{ top: "11px" }} margin={{ right: "small" }}>
                                 <Stack anchor="top-right">
                                     <Inbox size="medium" />
-                                    {notifications &&
+                                    {notifications > 0 &&
                                         <Box
                                             background="red"
                                             align="end"
