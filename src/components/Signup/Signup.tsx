@@ -33,7 +33,7 @@ export const Signup: FC<SignupProps> = (props) => {
                         </Box>                     
                         <Box pad="xlarge" align="center" margin="none" fill background="primary">
                             <Box align="center">
-                                <img width="80%" height="auto" src={assets.LoginHero} />
+                                <img alt={"Community Heroes"} width="80%" height="auto" src={assets.LoginHero} />
                                 <Heading color="white" level={3} textAlign="center">Get help from your community</Heading>
                                 <Text textAlign="center" color="white">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

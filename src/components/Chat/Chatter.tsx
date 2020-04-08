@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Chat, Channel, ChannelHeader, Thread, Window } from 'stream-chat-react';
+import React, { FC } from 'react';
+import { Chat, Channel, Thread, Window } from 'stream-chat-react';
 import { MessageList, MessageInput } from 'stream-chat-react';
 import { StreamChat } from 'stream-chat';
 
@@ -19,10 +19,6 @@ interface ChatUser {
 
 export const Chatter: FC<ChatterProps> = (props) => {
     const chatClient = new StreamChat('fg6kyxq6946m');
-
-    
-        console.log('chatusertoken' + props.chatUserToken);
-        console.log('chatuser' + props.chatUser);
 
     chatClient.setUser(props.chatUser, props.chatUserToken);
 

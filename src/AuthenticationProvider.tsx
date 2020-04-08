@@ -4,7 +4,6 @@ import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
 import { GetUserResponse } from './services/UserService/models/GetUserResponse'
 import { UserService } from './services/UserService/UserService'
 import { CreateUserRequest } from './services/UserService/models/CreateUserRequest'
-import { useHistory } from 'react-router-dom'
 import { RouteName, path } from './routing'
 
 export interface Auth0RedirectState {

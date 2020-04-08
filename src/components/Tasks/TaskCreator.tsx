@@ -1,15 +1,13 @@
-import React, { useState, FC, useEffect, useRef, RefObject, useCallback, FormEvent, ChangeEvent, useContext } from 'react';
-import { Box, TextInput, Button, Text, TextArea, Heading, ResponsiveContext } from 'grommet';
+import React, { useState, FC, useCallback, FormEvent, ChangeEvent, useContext } from 'react';
+import { Box, TextInput, Button, Text, TextArea, ResponsiveContext } from 'grommet';
 import styles from '../../styles.module.scss';
 import { Validator, FailureReason } from '../../lib/validation';
 import { field, required } from '../../lib/validation/rules';
 import { TaskService } from '../../services/TaskService/TaskService';
 import { useAuth0 } from '../../AuthenticationProvider';
 import { useHistory } from 'react-router-dom';
-import { RouteName, path } from '../../routing';
 
 export const TaskCreator: FC = (props) => {
-    const history = useHistory();
     const size = useContext(ResponsiveContext);
     const validator = new Validator({
         title: field(required()),
@@ -34,7 +32,6 @@ export const TaskCreator: FC = (props) => {
     const taskService = new TaskService();
     const { getTokenSilently } = useAuth0();
     const [ taskCreated, setTaskCreated ] = useState<boolean>(false);
-    const [ taskId, setTaskId ] = useState("");
     const [ title, setTitle ] = React.useState("");
     const [ description, setDescription ] = React.useState("");
     const [ zipCode, setZipCode ] = React.useState("");
@@ -57,7 +54,6 @@ export const TaskCreator: FC = (props) => {
                     description: description,
                     zipcode: zipCode
                 }, await getTokenSilently()).then(result => {
-                    setTaskId(result.id);
                     setTaskCreated(true);
                 });
             }

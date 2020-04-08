@@ -1,16 +1,10 @@
-import React, { FC, createContext, Dispatch, useReducer } from 'react';
+import React, { FC, createContext, useReducer } from 'react';
 import { createBrowserHistory, History } from "history";
 import { Router, Switch } from "react-router-dom";
-import ReactDOM from "react-dom";
-import css from './App.module.scss';
-import { Grommet, Box } from 'grommet';
+import { Grommet } from 'grommet';
 import { Header } from './components/Layout/Header';
-import { Map } from './components/Map/Map';
-import { TaskList } from './components/Tasks/TaskList';
 import { RouteCollection } from './components/Routing/RouteCollection';
 import { routes } from './routing';
-import { TasksResponse } from './services/TaskService/models/TasksResponse';
-import { TaskService } from './services/TaskService/TaskService';
 import { Auth0Provider } from './AuthenticationProvider';
 import { Bounds } from './services/TaskService/models/TasksRequest';
 
@@ -82,7 +76,7 @@ export const TaskReducer = (state: TaskState, action: TaskAction) : TaskState =>
             }
         case 'SetBounds':
         default:
-            if (action.payload == state.bounds) {
+            if (action.payload === state.bounds) {
                 return { 
                     tasks: state.tasks,
                     bounds: state.bounds,

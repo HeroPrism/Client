@@ -12,7 +12,7 @@ import { RouteName, path } from '../../routing';
 
 export const Profile: FC = () => {
     const size = useContext(ResponsiveContext);
-    const { user, dbUser, completedRegistration, registerUser, updateProfile, isAuthenticated } = useAuth0();
+    const { user, dbUser, completedRegistration, registerUser, isAuthenticated } = useAuth0();
     const [ editMode, setEditMode ] = useState<boolean>(false);
     const [ editAvatar, setEditAvatar ] = useState<boolean>(false);
     const [ loadComplete, setLoadComplete ] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export const Profile: FC = () => {
         setUserType(dbUser?.userType || "")
         setPictureId(dbUser?.pictureId || 1)
 
-        if ((dbUser?.firstName != "" && completedRegistration)) {
+        if ((dbUser?.firstName !== "" && completedRegistration)) {
             setLoadComplete(true);
         }
 
@@ -113,9 +113,9 @@ export const Profile: FC = () => {
                             {isAuthenticated &&
                                 <>
                                     {completedRegistration && !editMode &&
-                                        <Box direction={ size == "small" ? "column" : "row" } margin={{ top: "large" }} gap={ size == "small" ? "large" : "small" } justify="between">
-                                            <Box fill align={size == "small" ? "center" : "start" }>
-                                                <img width="100px" src={Avatar(pictureId)}></img>
+                                        <Box direction={ size === "small" ? "column" : "row" } margin={{ top: "large" }} gap={ size === "small" ? "large" : "small" } justify="between">
+                                            <Box fill align={size === "small" ? "center" : "start" }>
+                                                <img alt="User Avatar" width="100px" src={Avatar(pictureId)}></img>
                                             </Box>
                                             <Box fill>
                                                 <Box margin={{ bottom: "large" }}>
@@ -147,13 +147,13 @@ export const Profile: FC = () => {
                                     {(!completedRegistration || editMode) &&
                                         <Box as="form" onSubmit={onSaveClick}>
                                             <Box
-                                                direction={ size == "small" ? "column" : "row" } 
+                                                direction={ size === "small" ? "column" : "row" } 
                                                 margin={{ vertical: "large" }} 
-                                                gap={ size == "small" ? "large" : "small" } 
+                                                gap={ size === "small" ? "large" : "small" } 
                                                 justify="between"
                                             >
-                                                <Box fill align={size == "small" ? "center" : "start" }>
-                                                    <img width="100px" src={Avatar(pictureId)}></img>
+                                                <Box fill align={size === "small" ? "center" : "start" }>
+                                                    <img alt="User Avatar" width="100px" src={Avatar(pictureId)}></img>
                                                     <Box onClick={() => setEditAvatar(true)}>
                                                         <Text color="primary">Edit Avatar</Text>
                                                     </Box>
@@ -221,34 +221,34 @@ export const Profile: FC = () => {
                         <Box pad={{top: "large" }}>
                             <Grid
                                 columns={{
-                                    count: size == "small" ? 2 : 4,
+                                    count: size === "small" ? 2 : 4,
                                     size: "auto"
                                 }}
                                 gap="large"
                             >
                                 <Box align="center" onClick={() => editAvatarClick(1)}>
-                                    <img width="115" src={assets.Avatar1} />
+                                    <img alt="Avatar 1" width="115" src={assets.Avatar1} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(2)}>
-                                    <img width="115" src={assets.Avatar2} />
+                                    <img alt="Avatar 2" width="115" src={assets.Avatar2} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(3)}>
-                                    <img width="115" src={assets.Avatar3} />
+                                    <img alt="Avatar 3" width="115" src={assets.Avatar3} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(4)}>
-                                    <img width="115" src={assets.Avatar4} />
+                                    <img alt="Avatar 4" width="115" src={assets.Avatar4} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(5)}>
-                                    <img width="115" src={assets.Avatar5} />
+                                    <img alt="Avatar 5" width="115" src={assets.Avatar5} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(6)}>
-                                    <img width="115" src={assets.Avatar6} />
+                                    <img alt="Avatar 6" width="115" src={assets.Avatar6} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(7)}>
-                                    <img width="115" src={assets.Avatar7} />
+                                    <img alt="Avatar 7" width="115" src={assets.Avatar7} />
                                 </Box>
                                 <Box align="center" onClick={() => editAvatarClick(8)}>
-                                    <img width="115" src={assets.Avatar8} />
+                                    <img alt="Avatar 8" width="115" src={assets.Avatar8} />
                                 </Box>
                             </Grid>
                             <Box margin={{ top: "large" }}>

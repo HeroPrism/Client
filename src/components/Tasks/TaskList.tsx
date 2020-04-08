@@ -6,7 +6,7 @@ import { Task } from './Task';
 import ReactPaginate from 'react-paginate';
 import { AppContext } from '../../App';
 
-const TASKS_PER_PAGE = 16;
+const TASKS_PER_PAGE = 4;
 
 interface TaskListProps {
     onSelect: (task: TasksResponse) => void;
@@ -19,7 +19,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
 
     useEffect(() => {
         setDisplayedTasks(app.state.tasks.slice(app.state.page * TASKS_PER_PAGE, ((app.state.page + 1) * TASKS_PER_PAGE)));
-    }, [app.state.tasks]);
+    }, [app.state]);
 
     const onPageChange = (page: number) => {
         app.dispatch({ type: "SetPage", payload: page })
@@ -38,7 +38,7 @@ export const TaskList: FC<TaskListProps> = (props) => {
             {displayedTasks &&
                 <Box ref={ref} animation={["fadeIn", "slideUp"]}>
                     {displayedTasks?.map(task =>
-                        <div onClick={() => props.onSelect(task)}>
+                        <div key={task.id} onClick={() => props.onSelect(task)}>
                             <Task
                                 key={task.id}
                                 date={task.createDateTime}

@@ -2,9 +2,7 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 import { Box, Text, ResponsiveContext } from 'grommet';
 import { TaskService } from '../../services/TaskService/TaskService';
 import { useAuth0 } from '../../AuthenticationProvider';
-import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
 import { MyRequestResponse } from '../../services/TaskService/models/MyRequestsResponse';
-import { request } from 'https';
 import { useHistory } from 'react-router-dom';
 import { RouteName, path } from '../../routing';
 import { MyOffersResponse } from '../../services/TaskService/models/MyOffersResponse';
@@ -26,14 +24,14 @@ export const Messages: FC = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            if (activeMessageType == MessageType.Request && requests.length == 0) {
+            if (activeMessageType === MessageType.Request && requests.length === 0) {
                 getTokenSilently().then(token => {
                     taskService.getRequests(token).then(r => {
                         setRequests(r);
                     });
                 });
             }
-            if (activeMessageType == MessageType.Offer && offers.length == 0) {
+            if (activeMessageType === MessageType.Offer && offers.length === 0) {
                 getTokenSilently().then(token => {
                     taskService.getOffers(token).then(o => {
                         setOffers(o);
@@ -57,28 +55,28 @@ export const Messages: FC = () => {
     
     return (
         <Box background="neutral" style={{ minHeight: "calc(100vh)" }} >
-            <Box flex  margin={{ top: size == "small" ? "75px" : "xlarge", horizontal: "auto", bottom: size == "small" ? "none" : "xlarge" }} width="xlarge" background="white">
+            <Box flex  margin={{ top: size === "small" ? "75px" : "xlarge", horizontal: "auto", bottom: size === "small" ? "none" : "xlarge" }} width="xlarge" background="white">
                 <Box direction="row" pad={"small"} background="white" border={{ side: "bottom", color: "#eeeeee" }} fill>
                     <Box 
                         onClick={() => setActiveMessageType(MessageType.Request)} 
                         pad="medium" align="center" 
-                        fill background={activeMessageType == MessageType.Request ? "primary" : "white"}
+                        fill background={activeMessageType === MessageType.Request ? "primary" : "white"}
                     >
-                        <Text color={activeMessageType == MessageType.Request ? "white" : "#333333"}>My Requests</Text>
+                        <Text color={activeMessageType === MessageType.Request ? "white" : "#333333"}>My Requests</Text>
                     </Box>
                     <Box 
                         onClick={() => setActiveMessageType(MessageType.Offer)} 
                         pad="medium" align="center" 
                         fill 
-                        background={activeMessageType == MessageType.Offer ? "primary" : "white"}
+                        background={activeMessageType === MessageType.Offer ? "primary" : "white"}
                     >
-                        <Text color={activeMessageType == MessageType.Offer ? "white" : "#333333"}>My Offers</Text>
+                        <Text color={activeMessageType === MessageType.Offer ? "white" : "#333333"}>My Offers</Text>
                     </Box>
                 </Box>
-                {activeMessageType == MessageType.Request &&
+                {activeMessageType === MessageType.Request &&
                     <Box margin="small">
                         {requests?.map(request => 
-                            <Box onClick={() => onRequestClick(request.id)} margin={{ bottom: "small" }} pad={size == "small" ? "medium" : "small"} border={{ side: "all", color: "tertiary" }}>
+                            <Box key={request.id} onClick={() => onRequestClick(request.id)} margin={{ bottom: "small" }} pad={size === "small" ? "medium" : "small"} border={{ side: "all", color: "tertiary" }}>
                                 <Box direction="row" justify="between">
                                     <Box alignSelf="center">
                                         <Text>{request.title}</Text>
@@ -94,10 +92,10 @@ export const Messages: FC = () => {
                         )}
                     </Box>
                 }
-                {activeMessageType == MessageType.Offer &&
+                {activeMessageType === MessageType.Offer &&
                     <Box margin="small">
                         {offers?.map(offer => 
-                            <Box direction="row" onClick={() => history.push(path(RouteName.Chat, { chatId: offer.requester.chatId }))}>
+                            <Box key={offer.id} direction="row" onClick={() => history.push(path(RouteName.Chat, { chatId: offer.requester.chatId }))}>
                                 <Box align="center" pad="medium" background="white" >
                                     <img width="50px" src={Avatar(offer.requester.pictureId)} />
                                     {offer.requester.firstName}                       
@@ -110,7 +108,7 @@ export const Messages: FC = () => {
                             </Box>
                             
                         )}
-                        {offers.length == 0 &&
+                        {offers.length === 0 &&
                             <Box alignSelf="center"  pad={{ top: "xlarge" }}>
                                 You haven't made an offers to help yet.
                             </Box>

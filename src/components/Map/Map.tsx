@@ -145,7 +145,7 @@ export const Map: FC<MapProps> = (props) => {
     }, 250);
 
     return (
-        <div style={{ height: size == "small" ? "calc(100vh - 143px)" : "calc(100vh - 75px)", width: "100%" }}>
+        <div style={{ height: size === "small" ? "calc(100vh - 143px)" : "calc(100vh - 75px)", width: "100%" }}>
             <MyMapComponent
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}

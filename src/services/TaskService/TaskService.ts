@@ -36,7 +36,17 @@ export class TaskService {
             Authorization: `Bearer ${token}`
         }
 
-        const result =  await this.api.postWithAuth("tasks/delete", taskId, headers);
+        await this.api.postWithAuth("tasks/delete", taskId, headers);
+
+        return true;
+    }
+
+    public async completeTask(chatId?: any, token?: string) : Promise<boolean> {
+        const headers = {
+            Authorization: `Bearer ${token}`
+        }
+
+        await this.api.postWithAuth("tasks/complete", chatId, headers);
 
         return true;
     }

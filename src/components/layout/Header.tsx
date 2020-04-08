@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { Box, ResponsiveContext, Menu, Stack, Text } from "grommet";
-import { Notification, Chat, ChatOption, MailOption } from "grommet-icons";
+import React, { FC, useState } from "react";
+import { Box, Menu, Stack, Text } from "grommet";
+import { Inbox } from "grommet-icons";
 import { useAuth0 } from "../../AuthenticationProvider";
 import { FormDown } from "grommet-icons";
 import * as assets from "../../assets";
@@ -9,10 +9,10 @@ import { path, RouteName } from "../../routing";
 import { Avatar } from "../../assets/Avatar";
 
 export const Header : FC = () => {
-    const size = React.useContext(ResponsiveContext);
     const history = useHistory();
-    
     const { isAuthenticated, loginWithRedirect, logout, dbUser } = useAuth0();
+
+    const [ notifications ] = useState(true);
 
     const onProfileClick = () => {
         history.push(path(RouteName.Profile));
@@ -34,7 +34,7 @@ export const Header : FC = () => {
                 justify="between"
             >
                 <Box onClick={() => history.push(path(RouteName.Index))}>
-                    <img src={assets.Logo} width="65px" />
+                    <img alt="HeroPrism Logo" src={assets.Logo} width="65px" />
                 </Box>
                 <Box direction="row" gap="medium">
                     {!isAuthenticated &&
@@ -44,18 +44,19 @@ export const Header : FC = () => {
                         <Box direction="row">
                             <Box onClick={onMessagesClick} justify="center" pad={{ top: "11px" }} margin={{ right: "small" }}>
                                 <Stack anchor="top-right">
-                                    <MailOption size="28px" />
-                                    <Box
-                                        background="red"
-                                        align="center"
-                                        pad={{ horizontal: '8px' }} margin={{top: "-10px", left: "-4px"}}
-                                        round
-                                    >
-                                        <Text color="white" size="small">1</Text>
-                                    </Box>
+                                    <Inbox size="medium" />
+                                    {notifications &&
+                                        <Box
+                                            background="red"
+                                            align="end"
+                                            pad={{ horizontal: '2px' }} margin={{top: "-10px"}}
+                                            round
+                                        >
+                                            <Text color="white" size="small">1</Text>
+                                        </Box>
+                                    }
                                 </Stack>
                             </Box>
-                            
                             <Menu
                                 style={{ zIndex: 10000000 }} 
                                 plain
@@ -71,7 +72,7 @@ export const Header : FC = () => {
                                     pad="small"
                                 >
                                     <Box justify="center">{dbUser?.firstName}</Box>
-                                    <Box justify="center"><img width="40px" src={Avatar(dbUser?.pictureId || 1)}></img></Box>
+                                    <Box justify="center"><img alt="User Avatar" width="40px" src={Avatar(dbUser?.pictureId || 1)}></img></Box>
                                     <Box justify="center"><FormDown /></Box>
                                 </Box>
                         </Menu>

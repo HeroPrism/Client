@@ -1,10 +1,7 @@
-import React, { useState, FC, useContext } from 'react';
-import { Box, Text, Heading, ResponsiveContext } from 'grommet';
-import * as assets from "../../assets";
+import React, { FC, useContext } from 'react';
+import { Box, Text, ResponsiveContext } from 'grommet';
 import css from "./Task.module.scss";
-import src from '*.bmp';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
-import { Chatter } from '../Chat/Chatter';
 import { Avatar } from '../../assets/Avatar';
 
 interface TaskDetailsProps {
@@ -18,16 +15,18 @@ export const TaskDetails: FC<TaskDetailsProps> = (props) => {
     return (
         <Box animation={["fadeIn", "slideUp"]} background="neutral">
             <Box fill style={{ minHeight: "calc(100vh - 143px)" }}>
-                <Box background="white" pad="large" fill align="center" elevation="small">
-                    <img width="120px" src={Avatar(task?.requester.pictureId || 1)}></img>
-                    <Box className={css.userScore}>
-                        {task?.requester.score}
+                <div>
+                    <Box background="white" pad="large" fill align="center" elevation="small">
+                        <img alt="user avatar" width="120px" src={Avatar(task?.requester.pictureId || 1)}></img>
+                        <Box className={css.userScore}>
+                            {task?.requester.score}
+                        </Box>
+                        <Box margin={{ top: "xsmall" }}>
+                            <Text color="secondary">{task?.requester.firstName}</Text>
+                        </Box>
                     </Box>
-                    <Box margin={{ top: "xsmall" }}>
-                        <Text color="secondary">{task?.requester.firstName}</Text>
-                    </Box>
-                </Box>
-                <Box pad={size == "small" ? "medium" : "small" }>
+                </div>
+                <Box pad={size === "small" ? "medium" : "small" }>
                     <Box background="white" pad="medium" round="small">
                         <Box margin={{ bottom: "medium" }}>
                             <Text color="secondary">{task?.title}</Text>

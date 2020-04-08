@@ -1,13 +1,13 @@
-import React, { FC, useReducer, useState, useEffect, useContext } from 'react';
-import { Box, Layer, Heading, Text, Button, ResponsiveContext } from 'grommet';
-import { Close, FormPreviousLink, MapLocation } from 'grommet-icons';
+import React, { FC, useState, useEffect, useContext } from 'react';
+import { Box, Button, ResponsiveContext } from 'grommet';
+import { FormPreviousLink, MapLocation } from 'grommet-icons';
 import { TaskList } from '../../components/Tasks/TaskList';
 import { Map } from '../../components/Map/Map';
 import css from './Home.module.scss';
 import styles from '../../styles.module.scss';
 import { useAuth0 } from '../../AuthenticationProvider';
 import { TaskCreator } from '../../components/Tasks/TaskCreator';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { RouteName, path } from '../../routing';
 import { TaskDetails } from '../../components/Tasks/TaskDetails';
 import { TasksResponse } from '../../services/TaskService/models/TasksResponse';
@@ -37,7 +37,7 @@ export const Home: FC = () => {
     const [ taskView, setTaskView ] = useState<TaskView>(TaskView.List);
 
     useEffect(() => {
-        if (app.state.bounds != undefined) {
+        if (app.state.bounds !== undefined) {
             taskService.getTasks({ bounds: app.state.bounds }).then(tasks => { 
                 app.dispatch({ type: "SetTasks", payload: tasks });
             });
@@ -94,7 +94,7 @@ export const Home: FC = () => {
             <Box direction="row" justify="between">
                 <Box></Box>
                 <Box direction="row">
-                    {size == "small" &&
+                    {size === "small" &&
                         <Box direction="row" className={styles.btnOutline} onClick={() => setToggleMap(!toggleMap)}>
                             <Box>
                                 <MapLocation />
@@ -162,7 +162,7 @@ export const Home: FC = () => {
 
     return (    
         <Box flex direction="row" className={css.appWrapper}>
-            {(size != "small" || !toggleMap || taskView != TaskView.List) &&
+            {(size !== "small" || !toggleMap || taskView !== TaskView.List) &&
                 <Box width="large">
                     <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
                         {renderNav()}
@@ -186,9 +186,9 @@ export const Home: FC = () => {
                 </Box>
             }
             
-            {(size != "small" || toggleMap) && (taskView == TaskView.List || size != "small") &&
+            {(size !== "small" || toggleMap) && (taskView === TaskView.List || size !== "small") &&
                 <Box fill>
-                    {(size == "small" && toggleMap) &&
+                    {(size === "small" && toggleMap) &&
                         <Box background="white" border={{ side: "bottom", color: "#eeeeee" }}  pad="small">
                             {renderNav()}
                             <Signup isOpen={signupOpen} setOpen={setSignupOpen} />

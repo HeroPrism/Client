@@ -1,6 +1,5 @@
-import React, { useState, FC } from 'react';
-import { Box, Text, Heading } from 'grommet';
-import * as assets from "../../assets";
+import React, { FC } from 'react';
+import { Box, Text } from 'grommet';
 import css from "./Task.module.scss";
 import { User } from '../../services/TaskService/models/User';
 import { Avatar } from '../../assets/Avatar';
@@ -40,8 +39,8 @@ export const Task: FC<TaskProps> = (props) => {
                         <Text size="small">{description}</Text>
                     </Box>
                 </Box>
-                <Box align="center" width="20%" pad={{ vertical: "medium"} }>
-                    <img className={css.avatar} src={Avatar(props.user.pictureId)}></img>
+                <Box title={`${props.user.firstName} is a level ${props.user.score} hero`} align="center" width="20%" pad={{ vertical: "medium"} }>
+                    <img alt="task user avatar" className={css.avatar} src={Avatar(props.user.pictureId)}></img>
                     <Box className={css.userScore}>
                         {props.user.score}
                     </Box>

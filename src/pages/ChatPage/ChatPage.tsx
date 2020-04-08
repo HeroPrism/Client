@@ -1,5 +1,5 @@
-import React, { FC, useState, useEffect } from 'react';
-import { Box, Text, Button } from 'grommet';
+import React, { FC, useEffect } from 'react';
+import { Box } from 'grommet';
 import { useParams, useHistory } from 'react-router-dom';
 import { Chatter } from '../../components/Chat/Chatter';
 import { useAuth0 } from '../../AuthenticationProvider';
@@ -34,13 +34,7 @@ export const ChatPage: FC = () => {
                         </Box>
                     </Box>
                     <Box>
-                        <Button primary
-                            color="red"
-                            className={styles.btn}
-                            onClick={() => {}}
-                        >
-                            Delete
-                        </Button>
+                        
                     </Box>
                 </Box>
                 {isAuthenticated && dbUser && user &&
