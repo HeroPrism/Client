@@ -2,7 +2,6 @@
   "name": "playground",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://heroprism.github.io/client/",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.5",
     "@babel/core": "7.9.0",
